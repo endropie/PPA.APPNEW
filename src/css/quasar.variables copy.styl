@@ -1,0 +1,53 @@
+// Quasar Stylus Variables
+// --------------------------------------------------
+// To customize the look and feel of this app, you can override
+// the Stylus variables found in Quasar's source Stylus files.
+
+// Check documentation for full list of Quasar variables
+
+// It's highly recommended to change the default colors
+// to match your app's branding.
+// Tip: Use the "Theme Builder" on Quasar's documentation website.
+
+$primary   = #027BE3
+$secondary = #26A69A
+$accent    = #9C27B0
+
+$positive  = #21BA45
+$negative  = #C10015
+$info      = #31CCEC
+$warning   = #F2C037
+
+// Add color: Light, faded, dark
+$light     = #bdbdbd
+$dark      = #424242
+$faded     = #777777
+
+.text-light 
+  color: darken($light, 25%)
+.text-dark 
+  color: darken($dark, 25%)
+.text-faded 
+  color: darken($faded, 25%)
+
+.bg-light 
+  background $light
+.bg-dark 
+  background $dark
+.bg-faded 
+  background $faded
+
+// Add color brand. 
+$primary-light = lighten($primary, 40%)
+$primary-dark = darken($primary, 40%)
+
+.text-primary-light 
+  color: darken($primary-light, 25%)
+.text-primary-dark 
+  color: darken($primary-dark, 25%)
+
+.bg-primary-light
+  background $primary-light
+.bg-primary-dark 
+  background $primary-dark
+    
