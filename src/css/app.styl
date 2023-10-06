@@ -1,1 +1,172 @@
-// app global css in Stylus form
+import('./quasar.variables.styl')
+@import 'quasar.custom'
+
+
+// app global css
+// .contentable, .contentable-xs, .contentable-sm, .contentable-md, .contentable-lg { margin: 0 auto }
+// .contentable { max-width: 1200px }
+// .contentable-xs { max-width: 480px }
+// .contentable-sm { max-width: 960px }
+// .contentable-md { max-width: 1200px }
+// .contentable-lg { max-width: 100% }
+
+.main-box
+  background unset
+
+.main-box.q-card--dark
+  background #00000070
+
+.slim.q-field--auto-height
+  .q-field__control, .q-field__native
+    min-height unset
+
+.slim.q-field
+  .q-field__control, .q-field__marginal
+    height unset
+
+  .q-field__control-container
+    height unset
+
+  .q-field__native, .q-field__prefix, .q-field__suffix
+    line-height inherit
+
+.native-top.q-field .q-field__native
+  align-items: flex-start
+
+.no-highlight .q-table tbody td:before
+  background-color inherit
+
+// hr inset
+.inset-md { margin-left: 25%; margin-right: 25%; width: 50%;}
+.inset-sm { margin-left: 30%; margin-right: 30%; width: 40%;}
+.inset-xs { margin-left: 35%; margin-right: 35%; width: 30%;}
+.no-field-after.q-field--standard
+  .q-field__control:before
+    border-bottom 0
+  .q-field__control:after
+    display none
+
+.hide-arrow
+  .q-btn-dropdown__arrow
+    display none
+
+.text-small
+  font-size 90%
+  line-height 100%
+
+.table-print.q-table--bordered
+  border-width 0
+
+  .q-table, .q-table td, .q-table th
+    border-collapse collapse
+
+  .q-table:first-child th,
+  .q-table:first-child td
+    border-top-width 1px
+
+  .q-table:last-child th,
+  .q-table:last-child td
+    border-bottom-width 1px
+
+  .q-table tr th:first-child, .q-table tr td:first-child
+    border-left-style solid
+    border-left-width 1px
+    border-left-color inherit
+
+  .q-table tr th:last-child, .q-table tr td:last-child
+    border-right-style solid
+    border-right-width 1px
+    border-right-color inherit
+
+@media print
+  .table-print
+    .q-table thead, .q-table tr, .q-table th, .q-table td
+      border-color #333333
+
+  .table-print.q-table--bordered.dotted
+
+    .q-table tr td, .q-table tr th
+      border-style: dotted
+      border-width: 2px
+
+    .q-table tr th:first-child, .q-table tr td:first-child
+      border-left-style dotted
+      border-width: 2px
+
+    .q-table tr th:last-child, .q-table tr td:last-child
+      border-right-style dotted
+      border-width: 2px
+
+.th-uppercase .q-table
+  th
+    // height: 40px
+    font-weight: 400;
+    text-transform: uppercase;
+
+.th-text-left .q-table
+  th
+    text-align left
+
+.th-text-right .q-table
+  th
+    text-align right
+
+// q-table body striped => class="table-striped"
+.table-striped
+  .q-table > tbody > tr:nth-of-type(odd)
+    background-color rgba(125, 125, 125, 0.05)
+.table-striped.q-table--dark
+  .q-table > tbody > tr:nth-of-type(odd)
+    background-color rgba(125, 125, 125, 0.12)
+
+.table-sticky-header
+  height: calc(100vh - 50px)
+
+  .q-table__top,
+  .q-table__bottom,
+  thead tr:first-child th
+    background-color: #f9f9f9
+
+  thead tr th
+    position: sticky
+    z-index: 1
+  thead tr:first-child th
+    top: 0
+
+.table-sticky-column
+  max-width 100%
+
+  /* bg color is important for th; just specify one */
+  thead tr:first-child th:first-child
+    background-color #fff
+    opacity 1
+
+  td:first-child
+    background-color #f9f9f9 !important
+
+  tbody td:first-child,
+  thead tr:first-child th:first-child
+    position sticky
+    left 0
+    border-right-width 1px
+
+  tbody td:first-child
+    z-index 2
+
+  thead tr:first-child th:first-child
+    z-index 3
+
+.table-sticky-column.q-table--dark
+  thead tr:first-child th:first-child
+    background-color #2d2d2d
+  td:first-child
+    background-color #323232 !important
+
+
+.q-menu.scroll.options-striped
+  .q-virtual-scroll__content > .q-item:nth-of-type(even)
+    background-color rgba(125, 125, 125, 0.2)
+  .q-virtual-scroll__content > .q-item.q-item--dark:nth-of-type(even)
+    background-color rgba(125, 125, 125, 0.3)
+
+// styl-end

@@ -23,7 +23,6 @@ export default async ({ app, store, router, Vue }) => {
       store.dispatch('admin/setItemConfig', newData)
     },
     can: (v = null) => {
-      // console.warn('CAN', v, (v === null || (typeof v === 'string' && v === '') || (typeof v === 'object' && v.length === 0)) ? 'SKIP' : 'NEXT')
       if (v === null || (typeof v === 'string' && v === '') || (typeof v === 'object' && v.length === 0)) return true
 
       const UserPermiss = (store.getters['admin/USER'].permiss || [])
@@ -39,7 +38,6 @@ export default async ({ app, store, router, Vue }) => {
           }
         }
 
-        // console.warn('CAN', false, v)
         return false
       }
       return true
@@ -63,7 +61,6 @@ export default async ({ app, store, router, Vue }) => {
             position: 'top-right',
             timeout: 3000
           }
-          console.warn('errstatus', ErrRes.status)
           switch (ErrRes.status) {
             case 401:
               // mode.message = 'Ops, Authorization invalid!'

@@ -6,10 +6,7 @@ export default function permission (v) {
       const userPermiss = store.state.admin.AUTH.user.permiss
 
       permiss.forEach(name => {
-        console.warn('PERMISS:', name, userPermiss.some(val => val === name))
-
         if (userPermiss.some(p => {
-          // console.log('check', p, name)
           return p === name
         })) return next()
 
