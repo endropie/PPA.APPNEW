@@ -1,7 +1,7 @@
 <template>
 <div>
   <!-- TAB:{{PAGEMETA}} -->
-  <q-tabs v-if="PAGEMETA.tabs.length > 0" :inverted="$q.theme === 'ios'" :color="LAYOUT.isDark ? 'blue-grey-9' : 'primary'"
+  <q-tabs v-if="PAGEMETA.tabs.length > 0" :inverted="$q.theme === 'ios'" :color="$q.dark.isActive ? 'blue-grey-9' : 'primary'"
     :style="$q.theme === 'ios' ? { background: 'rgba(255,255,255,0.95' } : null"
     :class="{
       'within-iframe-hide': !PAGEMETA.iframeTabs
@@ -33,8 +33,5 @@ export default {
   computed: mapState('admin', [
     'PAGEMETA'
   ]),
-  created() {
-    // console.log('PAGEMETA', this.PAGEMETA)
-  },
 }
 </script>

@@ -53,7 +53,6 @@ export default {
     }
   },
   created() {
-    console.warn('HANDLING', this.$route)
     this.$nextTick(() => {
       if(this.RECONNECT) {
         this.recounter()

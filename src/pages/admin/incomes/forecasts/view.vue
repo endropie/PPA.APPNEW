@@ -31,7 +31,9 @@
                 <th name="part_name" class="text-left"> partname </th>
                 <th name="part_subname" class="text-left"> subname </th>
                 <th name="quantity" class="text-right"> quantity </th>
-                <th name="unit_id" class="text-left"> uni </th>
+                <th name="unit_id" class="text-left"> unit </th>
+                <th name="price" v-if="!ISHIDE_AMOUNT" class="text-right"> price </th>
+                <th name="total" v-if="!ISHIDE_AMOUNT" class="text-right"> total </th>
               </tr>
             </thead>
             <tbody>
@@ -41,6 +43,8 @@
                 <td class="text-left">{{ row.item.part_subname }}</td>
                 <td class="text-right">{{ row.quantity }}</td>
                 <td class="text-left">{{ row.unit.code }}</td>
+                <td class="text-right" v-if="!ISHIDE_AMOUNT">{{ $app.number_format(row.price) }}</td>
+                <td class="text-right" v-if="!ISHIDE_AMOUNT">{{ $app.number_format(row.quantity * row.price) }}</td>
               </tr>
             </tbody>
           </q-markup-table>
@@ -89,6 +93,9 @@ export default {
     '$route': 'init'
   },
   computed: {
+    ISHIDE_AMOUNT () {
+      return !this.$app.can('forecasts-amount');
+    },
     IS_EDITABLE () {
       if (this.rsView.revise_id) return false
       if (this.rsView.hasOwnProperty('has_relationship') && Object.keys(this.rsView.has_relationship).length > 0) return false

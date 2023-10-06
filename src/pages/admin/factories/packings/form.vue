@@ -517,7 +517,6 @@ export default {
       if (!rsItem.item) return 0
       const stock = rsItem.item.totals['WIP'] / (rsItem.unit_rate || 1)
       const faults = rsItem.packing_item_faults.reduce((sum, item) => Number(item.quantity) + sum, 0)
-      console.warn('RS', rsItem, stock)
       return (rsItem.id ? (oldItem.quantity + oldItem.faulty) : 0) + (stock || 0) - faults
     },
     MaxOrderUnit () {
@@ -555,8 +554,6 @@ export default {
           .filter((x, i) => x.work_order_item_id === id)
           .reduce((t, x) => t + Number(x.quantity), 0)
       }
-
-      console.warn('ini', this.FORM.data)
 
       return rsItem.packing_item_faults.map((faultDetail, faultKey) => {
         if (!faultDetail.work_order_item) return 0

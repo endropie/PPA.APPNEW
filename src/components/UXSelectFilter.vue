@@ -96,11 +96,6 @@ export default {
       options: this.$attrs.options || []
     }
   },
-  created() {
-    this.$nextTick(() => {
-      // console.warn('select', this);
-    })
-  },
   watch:{
     '$attrs.value': 'setValue',
     '$attrs.options': 'setOptions',
@@ -110,7 +105,6 @@ export default {
       this.value = v
     },
     setOptions(v) {
-      // console.warn('SET OPTIONS', this.$attrs.options)
       this.options = v
     },
     // use this default filter function
@@ -159,7 +153,6 @@ export default {
     inner() {
       let data = Object.assign({})
       if (!this.$refs.hasOwnProperty('QSelect')) return null
-      console.warn('INNER ==> OK')
       data.innerValue = this.$refs.QSelect.innerValue
       return data
     }

@@ -7,7 +7,7 @@
         @click="show = !show"/>
       <div class="text-subtitle2 text-uppercase text-truncate ellipsis">{{ $tc('general.incoming_good') }}</div>
     </q-card-section>
-    <q-separator :dark="LAYOUT.isDark" />
+    <q-separator  />
     <q-card-section v-show="show" class="q-pa-sm">
       <q-table dense class="no-shadow" style="height:180px"
         :data="rowData"

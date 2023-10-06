@@ -42,9 +42,6 @@ export default {
     //  values..
     }
   },
-  created () {
-    // console.info('This dashboard component created!')
-  },
   methods: {
     // Method...
   }

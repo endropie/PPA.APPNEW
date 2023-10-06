@@ -1,5 +1,5 @@
 <template>
-  <q-card :dark="LAYOUT.isDark" v-bind="$attrs" v-on="$listeners">
+  <q-card  v-bind="$attrs" v-on="$listeners">
     <q-card-section>
       <div class="row q-py-sm" v-show="!tabHide">
         <q-tabs shrink stretch
@@ -30,7 +30,7 @@
           <slot name="open" :counter="counter.open" v-if="modetab === 'open'"></slot>
         </div>
       </div>
-      <q-table class="no-shadow" :dark="LAYOUT.isDark"
+      <q-table class="no-shadow"
         :columns="[
           {name: 'number', label:$tc('label.no',1,{v:'voucher'}), field:'number', align:'left'},
           {name: 'part', label:$tc('label.part'), align:'left'},

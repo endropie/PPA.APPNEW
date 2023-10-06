@@ -1,5 +1,5 @@
 <template>
-  <q-page padding class="page-index"  :dark="LAYOUT.isDark">
+  <q-page padding class="page-index">
     <q-pull-to-refresh @refresh="TABLE.refresh" inline>
       <q-table  ref="table" class="table-index th-uppercase" color="primary"
         :title="TABLE.getTitle()"

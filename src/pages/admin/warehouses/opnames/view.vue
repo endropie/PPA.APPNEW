@@ -1,5 +1,5 @@
 <template>
-  <q-page padding class="column justify-start items-center" :dark="LAYOUT.isDark">
+  <q-page padding class="column justify-start items-center" >
     <page-print v-if="VIEW.show">
       <span slot="header-subtitle">Warehouses - Periode Opname</span>
       <div slot="header-tags" class="print-hide">

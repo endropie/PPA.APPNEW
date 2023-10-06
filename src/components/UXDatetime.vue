@@ -60,11 +60,7 @@ export default {
       options: this.$attrs.dateOptions
     }
   },
-  created () {
-    // console.log('DATE', this.valueFormat)
-  },
   watch: {
-    // '$attrs.value': 'setValue',
     'value': 'setValueDatetime',
     'valueDate': 'setValueDate',
     'valueTime': 'setValueTime',
@@ -75,19 +71,16 @@ export default {
   methods: {
     setValue (v) {
       this.value = v
-      // console.warn('setValue', v)
     },
     setValueDate (v) {
       this.value = (this.valueTime && v)
         ? v + ' ' + this.valueTime
         : null
-      // console.warn('setValueDate', v, this.value)
     },
     setValueTime (v) {
       this.value = (this.valueDate && v)
         ? this.valueDate + ' ' + v
         : null
-      // console.warn('setValueTime', v, this.value)
     },
     setValueDatetime (v) {
       this.$emit('input', v)

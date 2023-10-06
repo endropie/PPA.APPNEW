@@ -74,7 +74,6 @@ export default {
       const submit = () => {
         this.$axios.post(this.api, this.newPeriod)
           .then((response) => {
-            console.warn(response)
             this.$emit('input', response.data)
             this.$refs.newModal.hide()
           })
@@ -83,7 +82,6 @@ export default {
 
             if (this.$validator && error.response && error.response.status === 422) {
               for (const field in error.response.data.errors || {}) {
-                console.warn('error', field)
                 this.$validator.errors.add(Object.assign({ field: field, msg: error.response.data.errors[field][0] }))
               }
             }

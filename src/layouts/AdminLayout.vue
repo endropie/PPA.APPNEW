@@ -115,7 +115,7 @@
 <script>
 import { openURL } from 'quasar'
 import { mapState } from 'vuex'
-import MixPage from 'mixins/mix-page'
+import MixPage from 'src/mixins/mix-page'
 import DataMenu from 'assets/data-menu.js'
 
 export default {

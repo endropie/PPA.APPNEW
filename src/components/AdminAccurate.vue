@@ -40,7 +40,6 @@ export default {
         window.location.href = redirect
       }).onCancel(() => {
         if (this.$axios.defaults.headers.common['X-Accurate']) {
-          console.info('DELETE', 'X-Accurate')
           delete this.$axios.defaults.headers.common['X-Accurate']
         }
         this.$store.dispatch('admin/assignAccurate', null)

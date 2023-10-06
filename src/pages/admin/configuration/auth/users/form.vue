@@ -1,6 +1,6 @@
 <template>
 <q-page padding>
-  <q-card inline class="main-box full-width" :dark="LAYOUT.isDark" v-if="FORM.show">
+  <q-card inline class="main-box full-width"  v-if="FORM.show">
     <q-card-section>
      <form-header :title="FORM.title()" :subtitle="FORM.subtitle()" >
         <template slot="menu-item">
@@ -16,7 +16,6 @@
           :readonly="IS_ADMIN"
           v-model="rsForm.name"
           v-validate="'required|min:5'"
-          :dark="LAYOUT.isDark"
           :error="errors.has('name')"
           :error-message="errors.first('name')"
         />
@@ -26,7 +25,6 @@
           type="email"
           v-model="rsForm.email"
           v-validate="'required|email'"
-          :dark="LAYOUT.isDark"
           :error="errors.has('email')"
           :error-message="errors.first('email')"
         />
@@ -37,7 +35,6 @@
           v-model="rsForm.password"
           v-validate="'required|min:8'"
           v-if="ROUTE.meta.mode !== 'edit'"
-          :dark="LAYOUT.isDark"
           :error="errors.has('password')"
           :error-message="errors.first('password')"
         />
@@ -48,7 +45,6 @@
           v-model="rsForm.password_confirmation"
           v-validate="'required'"
           v-if="ROUTE.meta.mode !== 'edit'"
-          :dark="LAYOUT.isDark"
           :error="errors.has('password_confirmation')"
           :error-message="errors.first('password_confirmation')"
         />
@@ -63,7 +59,7 @@
 
               <div class="row q-col-gutter-sm ">
                 <q-checkbox v-for="(role, index) in RoleOptions" :key="index"
-                  class="col-12 col-sm-6 col-md-3" :dark="LAYOUT.isDark"
+                  class="col-12 col-sm-6 col-md-3"
                   v-model="rsForm.has_role" :val="role.value" :label="role.value"
                   :readonly="IS_ADMIN"
                 />
@@ -78,7 +74,7 @@
               </q-input>
               <div class="row q-col-gutter-sm ">
                 <q-checkbox v-for="(permission, index) in PermissionOptions"
-                  class="col-12 col-sm-6 col-md-3" :dark="LAYOUT.isDark"
+                  class="col-12 col-sm-6 col-md-3"
                   v-model="rsForm.has_permission"
                   :val="permission.value"
                   :label="permission.value"
@@ -98,7 +94,7 @@
         <q-btn color="positive" @click="onSave()">Save</q-btn>
     </q-card-actions>
   </q-card>
-  <q-inner-loading :showing="FORM.loading" :dark="LAYOUT.isDark"><q-spinner-dots size="70px" color="primary" /></q-inner-loading>
+  <q-inner-loading :showing="FORM.loading" ><q-spinner-dots size="70px" color="primary" /></q-inner-loading>
 </q-page>
 </template>
 

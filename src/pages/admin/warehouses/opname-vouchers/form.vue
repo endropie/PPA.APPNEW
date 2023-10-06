@@ -1,13 +1,13 @@
 <template>
 <q-page padding class="form-page">
-  <q-card inline class="main-box" :dark="LAYOUT.isDark" v-if="FORM.show">
+  <q-card inline class="main-box"  v-if="FORM.show">
     <q-card-section>
       <form-header
         :title="FORM.title()"
         :subtitle="FORM.subtitle()">
       </form-header>
     </q-card-section>
-    <q-separator :dark="LAYOUT.isDark"></q-separator>
+    <q-separator ></q-separator>
     <!-- COLUMN::1st Transaction details -->
     <q-card-section class="row q-col-gutter-x-md">
       <div class="col-12 col-sm-6 column">
@@ -17,7 +17,6 @@
           :label="$tc('label.no',1, {v:'voucher'})"
           :data-vv-as="$tc('label.number')"
           v-model="rsForm.number"
-          :dark="LAYOUT.isDark"
           v-validate="'required|integer'"
           :error="errors.has(`number`)"
           :error-message="errors.first(`number`)"/>
@@ -36,8 +35,6 @@
           :option-label="(item) => item.part_name || rsForm.item.part_name"
           :option-sublabel="(item) => `[${item.customer_code}] ${item.part_subname || '--'}`"
           :option-disable="(item) => !item.enable"
-          :options-dark="LAYOUT.isDark"
-          :dark="LAYOUT.isDark"
           @selected="(val, opt)=>{ setItemReference(val, opt) }"
           :error="errors.has(`item_id`)"
           :error-message="errors.first(`item_id`)" >
@@ -69,7 +66,6 @@
           :data-vv-as="$tc('label.quantity')"
           v-model="rsForm.quantity"
           v-validate="'required'"
-          :dark="LAYOUT.isDark"
           :error="errors.has(`quantity`)"
           :error-message="errors.first(`quantity`)">
           <q-select slot="after" class="no-padding" style="min-width:50px"
@@ -78,8 +74,6 @@
             v-model="rsForm.unit_id"
             map-options emit-value no-error-icon hide-dropdown-icon
             :options="ItemUnitOptions"
-            :options-dark="LAYOUT.isDark"
-            :dark="LAYOUT.isDark"
             v-validate="rsForm.item_id ? 'required' : ''"
             :error="errors.has(`unit_id`)"
             @input="(val)=> { setUnitReference(val) }"/>
@@ -88,7 +82,7 @@
         <q-input class="hidden" v-model="rsForm.unit_rate" />
       </div>
     </q-card-section>
-    <q-separator :dark="LAYOUT.isDark" />
+    <q-separator  />
     <q-card-actions class="q-mx-lg">
       <q-btn :label="$tc('form.save')" icon="save" color="positive" @click="onSave()" v-if="IS_EDITABLE"
         :loading="FORM.loading" />
@@ -97,7 +91,7 @@
       <q-btn :label="$tc('form.list')" icon="list" color="dark" :to="`${FORM.resource.uri}?return`"></q-btn>
     </q-card-actions>
   </q-card>
-  <q-inner-loading :showing="FORM.loading" :dark="LAYOUT.isDark"><q-spinner-dots size="70px" color="primary" /></q-inner-loading>
+  <q-inner-loading :showing="FORM.loading" ><q-spinner-dots size="70px" color="primary" /></q-inner-loading>
 </q-page>
 </template>
 
@@ -208,7 +202,6 @@ export default {
         if (this.rsForm.item.item_units) {
           this.rsForm.item.item_units.map((unitItem) => {
             if (unitItem.unit_id === val) this.rsForm.unit_rate = unitItem.rate
-            console.warn('rate', this.rsForm.unit_rate)
           })
         }
       }

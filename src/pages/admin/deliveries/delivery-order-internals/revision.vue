@@ -80,7 +80,6 @@
           :option-label="(item) => item.fullnumber || item.number"
           :option-sublabel="(item) => item.reference_number ? `REF: ${item.reference_number}` : undefined"
           :option-value="(item) => item"
-          :dark="LAYOUT.isDark" :options-dark="LAYOUT.isDark"
           :error="errors.has(`partitions.${partitionIndex}.request_order_id`)"
           :error-message="errors.first(`partitions.${partitionIndex}.request_order_id`)"
           @input="(v) => setRequestOrder(v, partitionIndex)"
@@ -103,7 +102,7 @@
       <!-- COLUMN:: Part items lists -->
       <q-markup-table bordered class="main-box no-shadow no-highlight"
         dense separator="horizontal"
-        :dark="LAYOUT.isDark">
+        >
         <thead>
           <q-tr class="text-uppercase" style="line-height:30px">
             <q-th key="prefix" width="50px"></q-th>
@@ -163,7 +162,6 @@
                 v-model="row.quantity"
                 outlined dense color="blue-grey-5"
                 hide-bottom-space no-error-icon
-                :dark="LAYOUT.isDark"
                 v-validate="`required|gt_value:0`"
                 :error="errors.has(`partitions.${partitionIndex}.delivery_order_items.${index}.quantity`)">
               </q-input>
@@ -173,7 +171,6 @@
                 v-model="row.quantity"
                 outlined dense color="blue-grey-5"
                 hide-bottom-space no-error-icon
-                :dark="LAYOUT.isDark"
                 v-validate="`required|gt_value:0|max_value:${Number(MaxMultiMount[partitionIndex][index]) / Number(row.unit_rate || 1)}`"
                 :error="errors.has(`partitions.${partitionIndex}.delivery_order_items.${index}.quantity`)">
                 <span slot="append" class="text-body2">
@@ -189,7 +186,6 @@
                 hide-bottom-space no-error-icon
                 map-options emit-value
                 :options="ItemUnitMultiOptions[partitionIndex][index]"
-                :dark="LAYOUT.isDark" :options-dark="LAYOUT.isDark"
                 v-validate="'required'"
                 :error="errors.has(`partitions.${partitionIndex}.delivery_order_items.${index}.unit_id`)"
                 @input="(val)=>{ setUnitReference(index, val, partitionIndex) }"
@@ -207,7 +203,7 @@
                 :name="`partitions.${partitionIndex}.description`"
                 :data-vv-as="$tc('label.description')"
                 :label="$tc('label.description')" stack-label
-                filled :dark="LAYOUT.isDark"
+                filled
                 v-model="partition.description"/>
             </q-td>
           </q-tr>
@@ -223,7 +219,7 @@
       <q-btn :label="$tc('form.save')" icon="save" color="positive" @click="onSave()" v-if="IS_REVISE"></q-btn>
     </q-card-actions>
   </q-card>
-  <q-inner-loading :showing="FORM.loading" :dark="LAYOUT.isDark">
+  <q-inner-loading :showing="FORM.loading" >
     <q-spinner-dots size="70px" color="primary" />
   </q-inner-loading>
   <q-dialog ref="dialog-request-order">

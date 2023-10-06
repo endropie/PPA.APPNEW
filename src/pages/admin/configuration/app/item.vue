@@ -1,5 +1,5 @@
 <template>
-    <q-card highlight class="main-box no-margin no-shadow" :dark="LAYOUT.isDark">
+    <q-card highlight class="main-box no-margin no-shadow" >
       <q-card-section>
         <span class="text-h4" header>{{$tc('general.item')}}</span>
       </q-card-section>
@@ -30,7 +30,7 @@
           <q-btn dense color="positive"  @click="onSave()">Save</q-btn>
       </q-card-actions>
 
-    <q-inner-loading :showing="FORM.loading" :dark="LAYOUT.isDark">
+    <q-inner-loading :showing="FORM.loading" >
       <q-spinner-dots size="70px" color="primary" />
     </q-inner-loading>
     </q-card>

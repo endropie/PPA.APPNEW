@@ -1,13 +1,13 @@
 <template>
 <q-page padding class="form-page">
-  <q-card inline class="main-box" :dark="LAYOUT.isDark" v-if="FORM.show">
+  <q-card inline class="main-box"  v-if="FORM.show">
     <q-card-section>
       <form-header
         :title="FORM.title()"
         :subtitle="FORM.subtitle()">
       </form-header>
     </q-card-section>
-    <q-separator :dark="LAYOUT.isDark"></q-separator>
+    <q-separator ></q-separator>
     <q-card-section class="row q-col-gutter-sm">
       <div class="col-12 text-subtitle2 q-pa-md" v-show="rsForm.id">
         <span>NO. {{rsForm.number}}</span>
@@ -34,7 +34,7 @@
         </list-opname-voucher>
       </div>
     </q-card-section>
-    <q-separator :dark="LAYOUT.isDark" />
+    <q-separator  />
     <q-card-actions class="q-mx-lg" v-if="false">
       <q-btn :label="$tc('form.save')" icon="save" color="positive" @click="onSave()" v-if="IS_EDITABLE"
         :loading="FORM.loading" />
@@ -43,7 +43,7 @@
       <q-btn :label="$tc('form.list')" icon="list" color="dark" :to="`${FORM.resource.uri}?return`"></q-btn>
     </q-card-actions>
   </q-card>
-  <q-inner-loading :showing="FORM.loading" :dark="LAYOUT.isDark"><q-spinner-dots size="70px" color="primary" /></q-inner-loading>
+  <q-inner-loading :showing="FORM.loading" ><q-spinner-dots size="70px" color="primary" /></q-inner-loading>
 </q-page>
 </template>
 
@@ -113,7 +113,6 @@ export default {
         this.FORM.loading = true
         let apiUrl = this.FORM.resource.api + '/' + this.ROUTE.params.id
         apiUrl += '?mode=validation&nodata=true'
-        // return console.warn('api', apiUrl)
         this.$axios.put(apiUrl, {})
         .then((response) => {
           let message = response.data.message

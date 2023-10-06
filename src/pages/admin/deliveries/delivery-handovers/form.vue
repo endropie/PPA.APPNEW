@@ -226,7 +226,7 @@ export default {
     },
     loadDelivery (request = Object.assign({})) {
       let parameter = []
-      if (!this.rsForm.customer_id) return console.warn('CUSTOMER INPUT FIRST!')
+      if (!this.rsForm.customer_id) return this.$q.notify('CUSTOMER INPUT FIRST!')
       parameter.push(`customer_id=${this.rsForm.customer_id}`)
       const paginate = request.pagination || {}
       const limit = paginate.rowsPerPage || this.deliveryTable.pagination.rowsPerPage
@@ -236,7 +236,6 @@ export default {
       const filters = this.deliveryTable.filters ? `&search=${this.deliveryTable.filters.join('+')}` : ''
 
       let api = `${this.deliveryTable.api}?handovering=1&or_delivery_handover_id=${this.rsForm.id || ''}&status=CONFIRMED&limit=${limit}&page=${page}&${parameter.join('&')}${filters}${begin}${until}`
-      console.info('[PLAY] API GET:', api)
       this.deliveryTable.loading = true
       this.$axios.get(api)
         .then((response) => {

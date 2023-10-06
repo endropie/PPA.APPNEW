@@ -1,5 +1,5 @@
 <template>
-    <q-card highlight class="main-box no-margin no-shadow" :dark="LAYOUT.isDark">
+    <q-card highlight class="main-box no-margin no-shadow">
       <q-card-section>
         <span class="text-h4 text-uppercase text-blue-grey" header>{{$tc('general.sj_delivery')}}</span>
       </q-card-section>
@@ -17,7 +17,6 @@
           :label="$tc('label.code', 1, {v:'prefix'})"
           v-model="rsForm.number_prefix"
           v-validate="'required|max:10'"
-          :dark="LAYOUT.isDark"
           :error="errors.has('number_prefix')"
           :error-message="errors.first('number_prefix')"
         />
@@ -48,7 +47,7 @@
           <q-btn dense color="positive"  @click="onSave()">Save</q-btn>
       </q-card-actions>
 
-    <q-inner-loading :showing="FORM.loading" :dark="LAYOUT.isDark">
+    <q-inner-loading :showing="FORM.loading" >
       <q-spinner-dots size="70px" color="primary" />
     </q-inner-loading>
     </q-card>

@@ -23,7 +23,7 @@
           <q-space/>
           <div class="on-right" style="max-width:50%">
             <div class="column items-end">
-              <q-markup-table dense bordered square separator="cell" :dark="LAYOUT.isDark"
+              <q-markup-table dense bordered square separator="cell"
                 class="table-print super-dense no-shadow no-highlight th-uppercase"
               >
                 <tbody>
@@ -54,7 +54,6 @@
         </div>
         <div>
           <q-markup-table dense bordered square separator="cell"
-            :dark="LAYOUT.isDark"
             class="table-print no-shadow no-highlight th-uppercase">
             <thead>
             <q-tr>
@@ -85,7 +84,7 @@
       </div>
       <q-space />
       <div class="page-break-inside" style="break-inside: avoid;">
-        <q-markup-table dense :dark="LAYOUT.isDark" class="no-shadow text-weight-light" style="">
+        <q-markup-table dense  class="no-shadow text-weight-light" style="">
           <tr class="text-center">
             <td width="21%">
               <div class="sign-name">Diterima Oleh</div>

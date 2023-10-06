@@ -1,6 +1,6 @@
 <template>
 <q-page padding class="form-page row justify-center">
-  <q-card v-if="FORM.show" class="main-box self-start" :dark="LAYOUT.isDark">
+  <q-card v-if="FORM.show" class="main-box self-start">
     <q-card-section>
       <form-header :title="FORM.title()" :subtitle="FORM.subtitle()">
         <template slot="menu-item">
@@ -17,7 +17,6 @@
               :label="$tc('label.code')"
               v-model="rsForm.code" disable
               v-validate="''"
-              :dark="LAYOUT.isDark"
               :error="errors.has('code')"
               :error-message="errors.first('code')"
               />
@@ -27,7 +26,6 @@
               :label="$tc('label.name')"
               v-model="rsForm.name"
               v-validate="'required'"
-              :dark="LAYOUT.isDark"
               :error="errors.has('name')"
               :error-message="errors.first('name')"/>
           </div>
@@ -41,7 +39,6 @@
               :hint="$tc('label.unit', 1, {v:$tc('label.second', 2)})"
               v-model="rsForm.salt_white"
               v-validate="'required'"
-              :dark="LAYOUT.isDark"
               :error="errors.has('salt_white')"
               :error-message="errors.first('salt_white')"/>
 
@@ -51,7 +48,6 @@
               :hint="$tc('label.unit', 1, {v:$tc('label.second', 2)})"
               v-model="rsForm.salt_red"
               v-validate="'required'"
-              :dark="LAYOUT.isDark"
               :error="errors.has('salt_red')"
               :error-message="errors.first('salt_red')"/>
 
@@ -59,7 +55,7 @@
               name="color_id"
               :label="$tc('label.color')"
               v-model="rsForm.color_id"
-              v-validate="'required'" :dark="LAYOUT.isDark"
+              v-validate="'required'"
               :options="ColorOptions"
               map-options emit-value
               :error="errors.has('color_id')"
@@ -77,7 +73,6 @@
           :data="rsForm.specification_details"
           :label-new="$tc('form.new', {v:$tc('items.specification')})"
           :new-data="{id: null, plate:null, thick:null }"
-          :dark="LAYOUT.isDark"
           min-length="-1">
 
           <template v-slot:field-thick="rs">
@@ -88,7 +83,6 @@
             v-model="rs.row.thick"
             v-validate="''"
             filled dense hide-bottom-space
-            :dark="LAYOUT.isDark"
             :error="errors.has(`specification_details.${rs.row.__index}.thick`)"
             :error-message="errors.first(`specification_details.${rs.row.__index}.thick`)">
             </q-input>
@@ -100,7 +94,6 @@
               :label="$tc('label.name', 3, {v:$tc('items.plate')})"
               v-model="rs.row.plate"
               filled dense hide-bottom-space
-              :dark="LAYOUT.isDark"
               :error="errors.has(`specification_details.${rs.row.__index}.plate`)"
               :error-message="errors.first(`specification_details.${rs.row.__index}.plate`)" >
 
@@ -116,19 +109,19 @@
           v-model="rsForm.description"
           type="textarea" rows="3"
           filled dense
-          :dark="LAYOUT.isDark"/>
+        />
 
 
       </div>
     </q-card-section>
-    <q-separator :dark="LAYOUT.isDark" />
+    <q-separator />
     <q-card-actions class="group float-right">
       <q-btn :label="$tc('form.cancel')" icon="cancel" color="dark" @click="FORM.toBack()"></q-btn>
       <q-btn :label="$tc('form.reset')" icon="refresh" color="light" @click="FORM.reset()"></q-btn>
       <q-btn :label="$tc('form.save')" icon="save" color="positive" @click="onSave()"></q-btn>
     </q-card-actions>
   </q-card>
-  <q-inner-loading :showing="FORM.loading" :dark="LAYOUT.isDark"><q-spinner-dots size="70px" color="primary" /></q-inner-loading>
+  <q-inner-loading :showing="FORM.loading"><q-spinner-dots size="70px" color="primary" /></q-inner-loading>
 </q-page>
 </template>
 

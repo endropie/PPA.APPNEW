@@ -48,16 +48,16 @@
             <q-th key="part_subname">{{$app.setting('item.subname_label')}}</q-th>
             <q-th key="quantity">{{$tc('label.quantity')}}</q-th>
             <q-th key="unit_id">{{$tc('label.unit')}}</q-th>
-            <q-th key="price">{{$tc('label.price')}}</q-th>
-            <q-th key="total">{{$tc('label.total')}}</q-th>
+            <q-th key="price" v-if="!IS_HIDE_AMOUNT">{{$tc('label.price')}}</q-th>
+            <q-th key="total" v-if="!IS_HIDE_AMOUNT">{{$tc('label.total')}}</q-th>
           </q-tr>
         </thead>
         <tbody>
           <q-tr v-for="(row, index) in rsForm.forecast_items" :key="index">
-            <q-td key="prefix" class="no-padding q-px-sm" style="width:auto">
+            <q-td key="prefix" style="width:auto;padding: 0 4px 0 6px;">
               <q-btn dense flat icon="clear" color="red" @click="removeItem(index)" />
             </q-td>
-            <q-td key="item_id"  >
+            <q-td key="item_id"  style="width:40%;min-width:150px;">
               <ux-select :name="`forecast_items.${index}.item_id`"
                 v-model="row.item_id"
                 dense hide-bottom-space
@@ -73,7 +73,7 @@
                 <q-tooltip v-if="!IssetCustomerID" :offset="[0, 10]">Select a customer, first! </q-tooltip>
               </ux-select>
             </q-td>
-            <q-td key="part_subname" width="30%" style="min-width:150px">
+            <q-td key="part_subname" width="30%" style="width:40%;min-width:150px">
               <q-input readonly
                 :value="row.item ? row.item.part_subname : null"
                 outlined dense hide-bottom-space color="blue-grey-5"
@@ -81,7 +81,7 @@
             </q-td>
             <q-td key="quantity" >
               <q-input :name="`forecast_items.${index}.quantity`"
-                style="min-width:50px"
+                input-style="min-width:50px"
                 v-model="row.quantity" type="number" min="0"
                 outlined no-error-icon color="blue-grey-5"
                 dense hide-bottom-space
@@ -98,7 +98,7 @@
                 :error="errors.has(`forecast_items.${index}.unit_id`)"
                 @input="(val)=> { setUnitReference(index, val) }" />
             </q-td>
-            <q-td key="price" >
+            <q-td key="price" v-if="!IS_HIDE_AMOUNT" >
               <ux-numeric :name="`forecast_items.${index}.price`" style="min-width:100px"
                 v-model="row.price"
                 outlined color="blue-grey-5" align="right"
@@ -106,7 +106,7 @@
                 v-validate="'required|gt_value:0'"
                 :error="errors.has(`forecast_items.${index}.price`)" />
             </q-td>
-            <q-td key="total_price"  >
+            <q-td key="total_price" v-if="!IS_HIDE_AMOUNT"  >
               <ux-numeric :name="`forecast_items.${index}.total_price`"
                 style="min-width:120px"  input-class="text-weight-bold"
                 borderless color="blue-grey-5"
@@ -239,7 +239,6 @@ export default {
             if (!rsItem.item_id) return false
             if (rsItem.item) {
               if (rsItem.item.unit_id === unit.value) return true
-              // console.log('item-unit', i, rsItem.item.item_units)
               if (rsItem.item.item_units) {
                 let filtered = rsItem.item.item_units.filter((fill) => fill.unit_id === unit.value)
                 if (filtered.length > 0) return true
@@ -250,6 +249,9 @@ export default {
         }
       }
       return vars
+    },
+    IS_HIDE_AMOUNT () {
+      return !this.$app.can('forecasts-amount');
     },
     MAPINGKEY () {
       let variables = {
@@ -353,7 +355,7 @@ export default {
             this.setForm(data)
           })
           .catch(error => {
-            console.warn('[FORM:routing]', error)
+            console.error('[FORM:routing]', error)
 
             this.$app.response.error(error.response, 'Load Form')
           })
@@ -376,7 +378,6 @@ export default {
     },
 
     onSave () {
-      // console.warn(this.$validator)
       this.$validator.validate().then(result => {
         if (!result) {
           this.$q.notify({

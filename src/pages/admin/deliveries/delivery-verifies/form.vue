@@ -114,14 +114,14 @@
       />
     </q-card-section>
     <q-separator inset />
-    <q-separator :dark="LAYOUT.isDark" />
+    <q-separator  />
     <q-card-actions class="q-mx-lg">
       <q-btn :label="$tc('form.cancel')" icon="cancel" color="dark" @click="FORM.toBack()"></q-btn>
       <q-btn :label="$tc('form.reset')" icon="refresh" color="light" @click="setForm(FORM.data)"></q-btn>
       <q-btn :label="$tc('form.save')" icon="save" color="positive" @click="onSave()"></q-btn>
     </q-card-actions>
   </q-card>
-  <q-inner-loading :showing="FORM.loading" :dark="LAYOUT.isDark">
+  <q-inner-loading :showing="FORM.loading" >
     <q-spinner-dots size="70px" color="primary" />
   </q-inner-loading>
 </q-page>
@@ -206,12 +206,6 @@ export default {
       this.rsForm.delivery_task_items[i].unit_rate = null
       this.rsForm.delivery_task_items[i].unit_id = null
       this.rsForm.delivery_task_items[i].unit = null
-      // this.rsForm.delivery_task_items[i].unit_id = v ? v.unit_id : null
-      // this.rsForm.delivery_task_items[i].unit = v ? { value: v.unit.id, label: v.unit.code } : null
-
-      console.warn('list', this.rsForm.delivery_task_items[i])
-      // this.rsForm.delivery_task_items[i].item = v ? v.id : null
-      console.warn('itemnya', v)
     },
     addNewDetail () {
       const newitem = Object.assign(this.setDefault().delivery_task_items[0], { _autofocus: true })
@@ -241,7 +235,7 @@ export default {
       }
       this.$validator.validate().then(result => {
         if (!result) {
-          console.warn('ERROR', this.errors)
+          console.error('ERROR', this.errors)
           return this.$q.notify({
             color: 'negative',
             icon: 'error',

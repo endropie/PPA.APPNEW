@@ -1,7 +1,7 @@
 <template>
   <q-page padding class="page-index" >
     <q-pull-to-refresh @refresh="TABLE.refresh" inline>
-      <q-table ref="table" inline class="table-index table-striped th-uppercase" color="primary" :dark="LAYOUT.isDark"
+      <q-table ref="table" inline class="table-index table-striped th-uppercase" color="primary"
         :data="TABLE.rowData"
         :columns="TABLE.columns"
         :pagination.sync="TABLE.pagination"
@@ -43,8 +43,7 @@
                 :placeholder="$tc('form.select', 1, {v:$tc('items.preline')})"
                 dense hide-bottom-space hide-dropdown-icon
                 standout="bg-blue-grey-5 text-white"
-                :bg-color="LAYOUT.isDark ? 'blue-grey-9' : 'blue-grey-1'"
-                :dark="LAYOUT.isDark" :options-dark="LAYOUT.isDark"
+                :bg-color="$q.dark.isActive ? 'blue-grey-9' : 'blue-grey-1'"
                 :options="LineOptions"
                 @input="FILTERABLE.submit" />
 
@@ -54,8 +53,7 @@
                 :label=" $tc('label.state')"
                 dense hide-bottom-space hide-dropdown-icon
                 standout="bg-blue-grey-5 text-white"
-                :bg-color="LAYOUT.isDark ? 'blue-grey-9' : 'blue-grey-1'"
-                :dark="LAYOUT.isDark"
+                :bg-color="$q.dark.isActive ? 'blue-grey-9' : 'blue-grey-1'"
                 @input="FILTERABLE.submit" />
 
               <ux-date class="col-8 col-sm-4"
@@ -63,8 +61,7 @@
                 v-model="FILTERABLE.fill.date.value" type="date"  clearable
                 dense hide-bottom-space
                 standout="bg-blue-grey-5 text-white"
-                :bg-color="LAYOUT.isDark ? 'blue-grey-9' : 'blue-grey-1'"
-                :dark="LAYOUT.isDark"
+                :bg-color="$q.dark.isActive ? 'blue-grey-9' : 'blue-grey-1'"
                 @input="FILTERABLE.submit"/>
 
               <q-select class="col-4 col-sm-2"
@@ -74,8 +71,7 @@
                 :label="$tc('label.shift')"
                 dense hide-bottom-space hide-dropdown-icon
                 standout="bg-blue-grey-5 text-white"
-                :bg-color="LAYOUT.isDark ? 'blue-grey-9' : 'blue-grey-1'"
-                :dark="LAYOUT.isDark"
+                :bg-color="$q.dark.isActive ? 'blue-grey-9' : 'blue-grey-1'"
                 @input="FILTERABLE.submit"/>
             </div>
 
@@ -88,8 +84,7 @@
                     :placeholder="$tc('form.select', 1, {v:$tc('general.customer')})"
                     dense hide-bottom-space hide-dropdown-icon
                     standout="bg-blue-grey-5 text-white"
-                    :bg-color="LAYOUT.isDark ? 'blue-grey-9' : 'blue-grey-1'"
-                    :dark="LAYOUT.isDark" :options-dark="LAYOUT.isDark"
+                    :bg-color="$q.dark.isActive ? 'blue-grey-9' : 'blue-grey-1'"
                     :options="CustomerOptions"
                     filter emit-value map-options
                     @input="[
@@ -104,8 +99,7 @@
                     :placeholder="$tc('form.select', 1, {v:$tc('general.item')})"
                     dense hide-bottom-space hide-dropdown-icon
                     standout="bg-blue-grey-5 text-white"
-                    :bg-color="LAYOUT.isDark ? 'blue-grey-9' : 'blue-grey-1'"
-                    :dark="LAYOUT.isDark" :options-dark="LAYOUT.isDark"
+                    :bg-color="$q.dark.isActive ? 'blue-grey-9' : 'blue-grey-1'"
                     :options="ItemOptions"
                     @input="FILTERABLE.submit"
                     :loading="SHEET['items'].loading"/>
@@ -117,8 +111,7 @@
                 v-model="FILTERABLE.search" emit-value
                 :placeholder="`${$tc('form.search',2)}...`"
                 standout="bg-blue-grey-5 text-white"
-                :bg-color="LAYOUT.isDark ? 'blue-grey-9' : 'blue-grey-1'"
-                :dark="LAYOUT.isDark"
+                :bg-color="$q.dark.isActive ? 'blue-grey-9' : 'blue-grey-1'"
                 @input="FILTERABLE.submit">
 
                 <template slot="append">

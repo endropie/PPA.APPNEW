@@ -5,7 +5,6 @@
         class="table-index table-striped th-uppercase"
         table-header-class="top-header"
         :dense="$q.screen.lt.md"
-        :dark="LAYOUT.isDark"
         :title="TABLE.getTitle()"
         separator="vertical"
         :data="TABLE.rowData"
@@ -41,7 +40,7 @@
                 :label="$tc('general.customer')"
                 dense hide-bottom-space hide-dropdown-icon
                 standout="bg-blue-grey-5 text-white"
-                :bg-color="LAYOUT.isDark ? 'blue-grey-9' : 'blue-grey-1'"
+                :bg-color="$q.dark.isActive ? 'blue-grey-9' : 'blue-grey-1'"
                 :options="CustomerOptions"
                 @input="FILTERABLE.submit"
               />
@@ -52,7 +51,7 @@
                 v-model="FILTERABLE.search" emit-value
                 :placeholder="`${$tc('form.search',2)}...`"
                 standout="bg-blue-grey-5 text-white"
-                :bg-color="LAYOUT.isDark ? 'blue-grey-9' : 'blue-grey-1'"
+                :bg-color="$q.dark.isActive ? 'blue-grey-9' : 'blue-grey-1'"
                 @input="FILTERABLE.submit" >
 
                 <template slot="append">
@@ -202,7 +201,6 @@ export default {
     },
     push (row) {
       let url = `${this.TABLE.resource.api}/${row.id}/accurate/push`
-      console.warn('pusher', url)
       this.$q.loading.show()
       this.$axios.post(url)
         .then((response) => {

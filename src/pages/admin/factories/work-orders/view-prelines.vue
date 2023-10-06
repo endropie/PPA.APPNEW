@@ -1,5 +1,5 @@
 <template>
-  <q-page class="row justify-center" :dark="LAYOUT.isDark" style="min-width:210mm;">
+  <q-page class="row justify-center"  style="min-width:210mm;">
     <div style="max-width:210mm;">
       <div class="print-hide q-my-md full-width">
         <!-- {{printer}} -->
@@ -9,7 +9,6 @@
           dense outlined multiple use-chips
           :options="rsView.MAPLINES.map(x => ({label: x.name, value:x.id}))"
           map-options emit-value
-          :dark="LAYOUT.isDark" :options-dark="LAYOUT.isDark"
           v-if="rsView.MAPLINES">
           <q-btn slot="after" icon="print" color="grey" @click.native="print()" />
         </q-select>
@@ -28,7 +27,7 @@
               <div class="col-auto self-end">
                 <span class="text-h6 text-center q-pt-lg q-pl-sm">WORK ORDER</span>
 
-                <q-markup-table dense class="super-dense no-shadow transparent" separator="none" :dark="LAYOUT.isDark">
+                <q-markup-table dense class="super-dense no-shadow transparent" separator="none" >
                   <tbody>
                     <tr>
                       <td class="text-uppercase">{{$tc('general.line')}}</td><td>{{ group.name }}</td>
@@ -40,7 +39,7 @@
                 </q-markup-table>
               </div>
               <div class="col-auto">
-                <q-markup-table bordered dense square class="super-dense no-shadow transparent" separator="cell" :dark="LAYOUT.isDark">
+                <q-markup-table bordered dense square class="super-dense no-shadow transparent" separator="cell" >
                   <tbody>
                     <tr>
                       <td>{{$tc('label.number')}}</td>

@@ -7,9 +7,6 @@ export default {
       // code...
     }
   },
-  created () {
-    // console.info('[PLAY] MIX-PAGE is Created!')
-  },
   computed: {
     title() {
       return this.$route.meta.title || ''
@@ -41,7 +38,6 @@ export default {
     },
     SHOW: {
       get () {
-        // console.warn('GET SHOW ->')
         return this.$store.state.admin.PAGE.show
       },
       set (val) {

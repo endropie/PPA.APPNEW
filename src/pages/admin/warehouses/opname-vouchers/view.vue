@@ -1,5 +1,5 @@
 <template>
-  <q-page padding class="column justify-start items-center" :dark="LAYOUT.isDark">
+  <q-page padding class="column justify-start items-center" >
     <page-print v-if="VIEW.show">
       <span slot="header-subtitle">Warehouses - voucher stocks</span>
       <div slot="header-tags" class="print-hide">
@@ -20,7 +20,7 @@
               </span>
             </div>
             <div>
-              <q-markup-table separator="cell" :dark="LAYOUT.isDark"
+              <q-markup-table separator="cell"
                 class="super-dense bordered no-shadow"
                 v-if="rsView.opname_stock">
                 <tr>

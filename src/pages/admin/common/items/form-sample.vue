@@ -1,6 +1,6 @@
 <template>
 <q-page padding class="form-page row justify-center">
-  <q-card inline class="main-box self-start" v-if="FORM.show" :dark="LAYOUT.isDark" :class="{ 'bg-grey-9': LAYOUT.isDark}">
+  <q-card inline class="main-box self-start" v-if="FORM.show" :dark="$q.dark.isActive" :class="{ 'bg-grey-9': $q.dark.isActive}">
     <q-card-section class="q-pa-sm">
       <form-header :title="(`SAMPLE ${$tc('general.item')}`).toUpperCase()" :subtitle="FORM.subtitle()" >
         <template slot="menu-item">
@@ -8,7 +8,7 @@
         </template>
       </form-header>
     </q-card-section>
-    <q-separator :dark="LAYOUT.isDark"/>
+    <q-separator/>
     <!-- ROW::1st Part Identity -->
     <q-card-section class="row q-col-gutter-sm">
       <div class="col-12 col-sm-6" >
@@ -19,7 +19,6 @@
             class="col-12"
             :data-vv-as="$tc('general.customer')"
             v-model="rsForm.customer_id" options-cover clearable
-            :dark="LAYOUT.isDark" :options-dark="LAYOUT.isDark"
             :options="CustomerOptions"
             v-validate="'required'"
             :error="errors.has('customer_id')"
@@ -34,14 +33,12 @@
             v-validate="'required'"
             :error="errors.has('part_number')"
             :error-message="errors.first('part_number')"
-            :dark="LAYOUT.isDark"
           />
           <q-input
               name="part_name"
               label="Part name"
               v-model="rsForm.part_name"
               v-validate="'required'"
-              :dark="LAYOUT.isDark"
               class="col-12"
               icon="label"
               :error="errors.has('part_name')"
@@ -52,7 +49,6 @@
             label="Part alias Finished"
             v-model="rsForm.part_alias"
             v-validate="''"
-            :dark="LAYOUT.isDark"
               class="col-12" icon="beenhere" :error="errors.has('part_alias')" :error-message="errors.first('part_alias')"
           />
         </div>
@@ -104,7 +100,6 @@
             class="col-12 col-sm-6"
             v-model="rsForm.brand_id"
             v-validate="isNotSample(`required`)"
-            :dark="LAYOUT.isDark"
             :options="BrandOptions"
             input-debounce="0"
             :error="errors.has('brand_id')"
@@ -116,7 +111,6 @@
             :label="$tc('items.specification')"
             class="col-12 col-sm-6"
             v-validate="isNotSample(`required`)"
-            :dark="LAYOUT.isDark"
             :options="SpecificationOptions"
             :error="errors.has('specification_id')"
             :error-message="errors.first('specification_id')" />
@@ -128,7 +122,6 @@
             v-validate="isNotSample(`required`)"
             class="col-6"
             icon="table_chart"
-            :dark="LAYOUT.isDark"
             :options="CategoryOptions"
             :error="errors.has('category_item_id')"
             :error-message="errors.first('category_item_id')" />
@@ -139,7 +132,6 @@
             icon="dehaze"
             v-model="rsForm.type_item_id"
             v-validate="isNotSample(`required`)"
-            :dark="LAYOUT.isDark"
             :options="TypeOptions"
             :error="errors.has('type_item_id')"
             :error-message="errors.first('type_item_id')" />
@@ -150,7 +142,6 @@
             class="col-6"
             icon="web_asset"
             v-validate="'required'"
-            :dark="LAYOUT.isDark"
             :options="UnitOptions"
             :error="errors.has('unit_id')"
             :error-message="errors.first('unit_id')" />
@@ -159,7 +150,6 @@
             v-model="rsForm.size_id"
             label="Size"
             v-validate="isNotSample(`required`)"
-            :dark="LAYOUT.isDark"
             :options="SizeOptions"
             class="col-6"
             icon="format_size"
@@ -320,8 +310,7 @@
                   name="estimate_monthly_amount"
                   :label="`${$tc('label.total', 1, {v: 'Estimasi'})} / Montly`"
                   v-model="rsForm.estimate_monthly_amount"
-                  v-validate="" no-error-icon
-                  :dark="LAYOUT.isDark"
+                  no-error-icon
                   :error="errors.has('estimate_monthly_amount')"
                   :error-message="errors.first('estimate_monthly_amount')"
                 />
@@ -332,7 +321,6 @@
                   label="Estimate S.A (dm)"
                   v-model="rsForm.estimate_sadm"
                   v-validate="'required'" no-error-icon
-                  :dark="LAYOUT.isDark"
                   :error="errors.has('estimate_sadm')"
                   :error-message="errors.first('estimate_sadm')"
                 />
@@ -343,7 +331,6 @@
                   label="Estimate HANGER/BAREL"
                   v-model="rsForm.estimate_load_capacity"
                   v-validate="''" no-error-icon
-                  :dark="LAYOUT.isDark"
                   :error="errors.has('estimate_load_capacity')"
                   :error-message="errors.first('estimate_load_capacity')"
                 />
@@ -414,17 +401,16 @@
         :label="$tc('label.description')" stack-label
         v-model="rsForm.description"
         filled
-        :dark="LAYOUT.isDark"
       />
     </q-card-section>
-    <q-separator :dark="LAYOUT.isDark" spaced />
+    <q-separator spaced />
     <q-card-actions class="group float-right">
       <q-btn :label="$tc('form.cancel')" icon="cancel" color="dark" @click="FORM.toBack()" />
       <q-btn :label="$tc('form.reset')" icon="refresh" color="light" @click="setForm(FORM.data)" />
       <q-btn :label="$tc('form.save')" icon="save" color="positive" @click="onSave()" />
     </q-card-actions>
   </q-card>
-  <q-inner-loading :showing="FORM.loading" :dark="LAYOUT.isDark"><q-spinner-dots size="70px" color="primary" /></q-inner-loading>
+  <q-inner-loading :showing="FORM.loading"><q-spinner-dots size="70px" color="primary" /></q-inner-loading>
 </q-page>
 </template>
 
@@ -693,7 +679,7 @@ export default {
             this.$router.go(-1)
           })
           .catch((error) => {
-            console.warn(error)
+            console.error(error)
             this.FORM.response.fields(error.response)
             this.FORM.response.error(error.response || error, 'FORM ITEM PART')
           })

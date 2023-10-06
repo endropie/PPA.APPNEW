@@ -3,9 +3,9 @@
     <div class="header-top">
       <div class="header-menu row justify-end float-right">
         <q-btn round flat icon="more_vert" v-if="!hideMenu">
-          <q-menu :content-class="{'bg-faded text-light':LAYOUT.isDark}">
+          <q-menu :content-class="{'bg-faded text-light':$q.dark.isActive}">
             <slot name="menu" >
-              <q-list  :dark="LAYOUT.isDark" class="table-menu" style="min-width: 150px">
+              <q-list  class="table-menu" style="min-width: 150px">
                 <slot name="menu-item" />
 
               </q-list>

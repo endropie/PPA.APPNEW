@@ -24,7 +24,6 @@
             :label="$tc('general.customer')"
             :disable="IssetItemDetails" v-validate="'required'"
             :options="CustomerOptions" filter clearable
-            :dark="LAYOUT.isDark" :options-dark="LAYOUT.isDark"
             @input="(val)=>{ setCustomerReference(val) }"
             :error="errors.has('customer')"
             :error-message="errors.first('customer')"
@@ -34,7 +33,6 @@
           <ux-date class="col" style="min-width:150px" name="date"
             stack-label :label="$tc('label.date')"
             v-model="rsForm.date"
-            :dark="LAYOUT.isDark"
             v-validate="'required'"
             :error="errors.has('date')"
             :error-message="errors.first('date')"
@@ -43,7 +41,6 @@
           <ux-date name="actived_date" class="col" style="min-width:150px"
             stack-label :label="$tc('label.expired',2) + ' PO'"
             v-model="rsForm.actived_date"
-            :dark="LAYOUT.isDark"
             v-validate="rsForm.order_mode == 'PO' ? 'required' : ''"
             :error="errors.has('actived_date')"
             :error-message="errors.first('actived_date')"
@@ -55,7 +52,6 @@
           <q-input name="reference_number" class="col-12"
             stack-label label="Referense PO/SJ"
             v-model="rsForm.reference_number"
-            :dark="LAYOUT.isDark"
             v-validate="rsForm.order_mode === 'PO' ? 'required' :''"
             :error="errors.has('reference_number')"
             :error-message="errors.first('reference_number')" />
@@ -67,7 +63,7 @@
       <div class="col-12 q-pb-md">
         <q-markup-table class="main-box no-shadow no-highlight th-uppercase"
           dense bordered separator="horizontal"
-          :dark="LAYOUT.isDark">
+          >
           <thead>
             <q-tr style="line-height:30px">
               <q-th key="prefix" width="50px"></q-th>
@@ -93,7 +89,6 @@
                   :options="ItemOptions"
                   filter emit-value map-options
                   :readonly="!IssetCustomerID"
-                  :dark="LAYOUT.isDark" :options-dark="LAYOUT.isDark"
                   :error="errors.has(`request_order_items.${index}.item_id`)"
                   :loading="SHEET['items'].loading"
                   @input="(val)=>{ setItemReference(index, val) }"
@@ -111,7 +106,6 @@
                   outlined dense hide-bottom-space
                   color="blue-grey-5" style="min-width:80px"
                   v-validate="`required|gt_value:0`"
-                  :dark="LAYOUT.isDark"
                   :error="errors.has(`request_order_items.${index}.quantity`)"
                 />
               </q-td>
@@ -123,7 +117,6 @@
                   outlined dense hide-bottom-space
                   color="blue-grey-5" style="width:80px"
                   v-validate="row.item_id ? 'required' : ''"
-                  :dark="LAYOUT.isDark" :options-dark="LAYOUT.isDark"
                   :error="errors.has(`request_order_items.${index}.unit_id`)"
                   @input="(val)=> { setUnitReference(index, val) }" />
                 <q-input v-model="row.unit_rate" class="hidden" />
@@ -134,7 +127,6 @@
                   outlined dense hide-bottom-space
                   color="blue-grey-5" style="min-width:120px"
                   v-validate="row.item_id ? 'required' : ''"
-                  :dark="LAYOUT.isDark"
                   :error="errors.has(`request_order_items.${index}.price`)" />
               </q-td>
               <q-td key="total" width="25%" style="min-width:150px">
@@ -143,7 +135,6 @@
                   readonly dense borderless hide-bottom-space
                   color="blue-grey-5" style="width:120px"
                   v-validate="row.item_id ? '' : ''"
-                  :dark="LAYOUT.isDark"
                   :error="errors.has(`total-${index}`)"
                 />
               </q-td>
@@ -164,7 +155,7 @@
           name="description"
           stack-label :label="$tc('label.description')"
           v-model="rsForm.description"
-          :dark="LAYOUT.isDark">
+          >
 
           <template slot="prepend">
             <q-icon name="rate_review"></q-icon>
@@ -174,14 +165,14 @@
       </div>
 
     </q-card-section>
-    <q-separator :dark="LAYOUT.isDark" />
+    <q-separator  />
     <q-card-actions class="q-mx-lg">
       <q-btn :label="$tc('form.cancel')" icon="cancel" color="dark" @click="FORM.toBack()"></q-btn>
       <q-btn :label="$tc('form.reset')" icon="refresh" color="light" @click="setForm(FORM.data)"></q-btn>
       <q-btn :label="$tc('form.save')" icon="save" color="positive" @click="onSave()" v-if="IS_EDITABLE"></q-btn>
     </q-card-actions>
   </q-card>
-  <q-inner-loading :showing="FORM.loading" :dark="LAYOUT.isDark"><q-spinner-dots size="70px" /></q-inner-loading>
+  <q-inner-loading :showing="FORM.loading" ><q-spinner-dots size="70px" /></q-inner-loading>
 </q-page>
 </template>
 
@@ -390,7 +381,6 @@ export default {
             this.setForm(data)
           })
           .catch(error => {
-            console.warn('[FORM:routing]', error)
             this.$app.response.error(error.response, 'Load Form')
           })
           .finally(() => {

@@ -11,7 +11,7 @@
                     <div class="self-center head-icon">
                       <slot name="'header-icon'">
                         <q-avatar color="transparent" text-color="primary" rounded class="q-mr-sm">
-                          <img src="/statics/icons/ppa-icon.png" width="100%" />
+                          <img src="/icons/ppa-icon.png" width="100%" />
                         </q-avatar>
                         <!-- <div>
                           <q-icon  name="widgets" color="primary" class=""/>

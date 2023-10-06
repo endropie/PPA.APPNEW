@@ -1,9 +1,9 @@
 <template>
   <q-page padding>
-    <q-list highlight class="main-box" :dark="LAYOUT.isDark">
+    <q-list highlight class="main-box">
       <q-item-label header icon="settings">Module setting</q-item-label>
 
-      <q-separator :dark="LAYOUT.isDark" />
+      <q-separator />
     </q-list>
   </q-page>
 </template>
@@ -41,11 +41,7 @@ export default {
       '$route' : 'init',
   },
   methods: {
-    test(){
-      console.log(this.FORM)
-    },
     routing() {
-      // code..
 
       setTimeout(() => {
         this.FORM.loading = true

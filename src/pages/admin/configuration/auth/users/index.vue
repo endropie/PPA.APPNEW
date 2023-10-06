@@ -4,7 +4,6 @@
       <q-table
         ref="table"
         class="table-index th-uppercase"
-        :dark="LAYOUT.isDark"
         :title="TABLE.getTitle()"
         :data="TABLE.rowData"
         :columns="TABLE.columns"

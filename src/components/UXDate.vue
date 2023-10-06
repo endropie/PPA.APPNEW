@@ -49,9 +49,6 @@ export default {
       options: this.$attrs.dateOptions
     }
   },
-  created () {
-    // console.log('DATE', this.valueFormat)
-  },
   watch: {
     '$attrs.value': 'setValue',
     '$attrs.dateOptions': 'setDateOptions'

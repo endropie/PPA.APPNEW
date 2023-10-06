@@ -1,6 +1,6 @@
 <template>
 <q-page padding class="form-page row justify-center">
-  <q-card inline class="main-box self-start" :dark="LAYOUT.isDark"  v-if="FORM.show">
+  <q-card inline class="main-box self-start"   v-if="FORM.show">
     <q-card-section>
       <form-header :title="FORM.title()" :subtitle="FORM.subtitle()" >
         <template slot="menu-item">
@@ -11,27 +11,27 @@
     <q-card-section style="min-height: calc(100vh - 200px);">
       <div class="row q-col-gutter-sm " >
         <q-field class="col-12 col-md-6" :error="errors.has('name')" :error-message="errors.first('name')">
-          <q-input name="name" label="Name" v-model="rsForm.name" v-validate="'required'" :dark="LAYOUT.isDark"
+          <q-input name="name" label="Name" v-model="rsForm.name" v-validate="'required'"
           :suffix="rsForm.guard_name ? `Guard: ${rsForm.guard_name}` : ''"/>
         </q-field>
         <q-field label="Role has permission" label-width="12" class="col-12">
           <div class="row q-col-gutter-sm ">
             <q-checkbox v-for="(permission, index) in PermissionOptions" :key="index"
-              class="col-12 col-sm-6 col-md-3" :dark="LAYOUT.isDark"
+              class="col-12 col-sm-6 col-md-3"
               v-model="rsForm.has_permission" :val="permission.value" :label="permission.value"
             />
           </div>
         </q-field>
       </div>
     </q-card-section>
-    <q-separator :dark="LAYOUT.isDark"/>
+    <q-separator />
     <q-card-actions class="q-mx-lg">
         <q-btn :label="$tc('form.cancel')" icon="cancel" color="dark" @click="FORM.toBack()"></q-btn>
         <q-btn label="Reset" icon="refresh" color="light" @click="setForm(FORM.data)"></q-btn>
         <q-btn :label="$tc('form.save')" icon="save" color="positive" @click="onSave()"></q-btn>
     </q-card-actions>
   </q-card>
-  <q-inner-loading :showing="FORM.loading" :dark="LAYOUT.isDark"><q-spinner-dots size="70px" color="primary" /></q-inner-loading>
+  <q-inner-loading :showing="FORM.loading" ><q-spinner-dots size="70px" color="primary" /></q-inner-loading>
 </q-page>
 </template>
 

@@ -53,9 +53,6 @@ export default {
       }
     }
   },
-  mounted () {
-    // console.info('[PLAY] MIX-FORM is Mounted!')
-  },
   computed: {
     ROUTE () {
       return this.route || this.$route
@@ -73,7 +70,7 @@ export default {
   },
   methods: {
     FORM__load (callback = null) {
-      if (typeof callback !== 'function') console.warn('*[PLAY]* - callback is function required')
+      if (typeof callback !== 'function') console.error('[PLAY] - callback is function required')
 
       this.FORM.show = false
       this.FORM.loading = true
@@ -262,7 +259,6 @@ export default {
       }).onOk(() => {
         this.$axios.delete(`${this.FORM.resource.api}/${this.ROUTE.params.id}?mode=void`)
           .then((response) => {
-            console.warn('then', response)
             if (response.data.success) {
               this.$app.notify.success({
                 message: this.$tc('messages.success', 1, 'VOID').toUpperCase(),
@@ -272,7 +268,6 @@ export default {
             }
           })
           .catch(error => {
-            if (!error.hasOwnProperty('response')) console.warn('error', error)
             this.FORM.response.error(error.response || error)
           })
       })
@@ -286,7 +281,6 @@ export default {
         ok: this.$tc('messages.yes_to', 1, { v: this.$tc('form.delete') }),
         cancel: this.$tc('form.cancel')
       }).onOk(() => {
-        // console.warn('DELETE', this.ROUTE.params.id)
         this.$axios.delete(`${this.FORM.resource.api}/${this.ROUTE.params.id}`)
           .then((response) => {
             if (response.data.success) {

@@ -7,7 +7,7 @@
         @click="show = !show"/>
       <div class="text-subtitle2 text-uppercase text-truncate ellipsis">Validasi {{ $tc('items.part_sample') }}</div>
     </q-card-section>
-    <q-separator :dark="LAYOUT.isDark" />
+    <q-separator/>
     <q-card-section v-show="show" class="q-pa-sm">
       <q-table dense class="no-shadow"
         :data="rowData"

@@ -1,6 +1,6 @@
 <template>
 <q-page padding class="form-page row justify-center">
-  <q-card inline class="main-box self-start" :dark="LAYOUT.isDark" v-if="FORM.show">
+  <q-card inline class="main-box self-start" v-if="FORM.show">
     <q-card-section>
       <form-header
         :title="FORM.title()"
@@ -24,7 +24,6 @@
         label="NIK" data-vv-as="NIK"
         v-model="rsForm.code"
         v-validate="'required'"
-        :dark="LAYOUT.isDark"
         :error="errors.has('code')"
         :error-message="errors.first('code')"/>
       <q-input class="col-12 col-sm-6"
@@ -32,14 +31,12 @@
         :label="$tc('label.name')"
         v-model="rsForm.name"
         v-validate="'required'"
-        :dark="LAYOUT.isDark"
         :error="errors.has('name')"
         :error-message="errors.first('name')"/>
       <q-input class="col-12 col-sm-6"
         name="phone" type="phone"
         :label="$tc('label.phone')"
         v-model="rsForm.phone"
-        :dark="LAYOUT.isDark"
         v-validate="'phone'"
         :error="errors.has('phone')"
         :error-message="errors.first('phone')" />
@@ -48,7 +45,6 @@
         name="email" type="email"
         :label="$tc('label.email')"
         v-model="rsForm.email"
-        :dark="LAYOUT.isDark"
         v-validate="'required|email'"
         :error="errors.has('email')"
         :error-message="errors.first('email')" />
@@ -58,7 +54,6 @@
         v-model="rsForm.position_id"
         :label="$tc('general.position')"
         v-validate="'required'"
-        :dark="LAYOUT.isDark"
         :options="PositionOptions"
         emit-value map-options
         :error="errors.has('position_id')"
@@ -69,7 +64,6 @@
         v-model="rsForm.department_id"
         :label="$tc('general.position')"
         v-validate="'required'"
-        :dark="LAYOUT.isDark"
         :options="DepartmentOptions"
         emit-value map-options
         :error="errors.has('department_id')"
@@ -93,7 +87,6 @@
                   name="email" type="email"
                   :label="$tc('label.email')"
                   v-model="rsForm.email"
-                  :dark="LAYOUT.isDark"
                   v-validate="'required|email'"
                   :error="errors.has('email')"
                   :error-message="errors.first('email')" />
@@ -102,14 +95,12 @@
                   name="setup_user.password"
                   label="Password"
                   v-model="rsForm.setup_user.password"
-                  :dark="LAYOUT.isDark"
                   v-validate="'required'"
                   :error="errors.has('setup_user.password')"/>
                 <q-input class="col-12 col-md-4" :class="{'col-md-6': rsForm.user}" type="password"
                   name="setup_user.password_confirmation"
                   label="Re-password"
                   v-model="rsForm.setup_user.password_confirmation"
-                  :dark="LAYOUT.isDark"
                   v-validate="'required|confirmed:password'"
                   :error="errors.has('setup_user.password_confirmation')"/>
               </div>
@@ -125,14 +116,14 @@
         </q-item>
       </q-list>
     </q-card-section>
-    <q-separator :dark="LAYOUT.isDark" />
+    <q-separator />
     <q-card-actions class="group">
       <q-btn :label="$tc('form.cancel')" icon="cancel" color="dark" @click="FORM.toBack()"></q-btn>
       <q-btn :label="$tc('form.reset')" icon="refresh" color="light" @click="FORM.reset()"></q-btn>
       <q-btn :label="$tc('form.save')" icon="save" color="positive" @click="onSave()"></q-btn>
     </q-card-actions>
   </q-card>
-    <q-inner-loading :showing="FORM.loading" :dark="LAYOUT.isDark"><q-spinner-dots size="70px" color="primary" /></q-inner-loading>
+    <q-inner-loading :showing="FORM.loading"><q-spinner-dots size="70px" color="primary" /></q-inner-loading>
 </q-page>
 </template>
 

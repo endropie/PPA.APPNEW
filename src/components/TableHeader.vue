@@ -24,9 +24,9 @@
           color="light"
           icon="more_vert">
 
-          <q-menu :content-class="{'bg-faded text-light':LAYOUT.isDark}">
+          <q-menu :content-class="{'bg-faded text-light': $q.dark.isActive }">
             <slot name="menu" >
-              <q-list :dark="LAYOUT.isDark" class="table-menu" style="min-width: 220px">
+              <q-list class="table-menu" style="min-width: 220px">
                 <template v-for="(menu, index) in menus">
                   <q-item :key="index"
                     :clickable="typeof menu.clickable === 'undefined' ? true : menu.clickable"
@@ -40,13 +40,12 @@
                       <q-item-label caption v-if="menu.detail" lines="1">{{menu.detail}}</q-item-label>
                     </q-item-section>
                     <q-item-section avatar style="min-width:40px">
-                      <!-- <q-icon :name="menu.icon" :color="LAYOUT.isDark ? 'white' : menu.color || 'light'"/> -->
                       <q-avatar :icon="menu.icon" :color="menu.color || 'primary'" text-color="white" />
                     </q-item-section>
                   </q-item>
                 </template>
                 <slot name="XXmenu-item" />
-                <q-separator :dark="LAYOUT.isDark" v-if="PREFERENCE" />
+                <q-separator v-if="PREFERENCE" />
                 <q-item v-if="PREFERENCE" clickable>
                   <q-item-section>Preferences</q-item-section>
                   <q-item-section side>
@@ -86,7 +85,6 @@
             class="table-filter"
             v-model="model.filter"
             v-if="filter !== undefined"
-            :dark="LAYOUT.isDark"
             outlined dense
             autocomplete="off"
             placeholder="Search..."
@@ -136,9 +134,6 @@ export default {
         filter: this.$attrs.filter || ''
       },
     }
-  },
-  mounted() {
-    // console.warn('MOUNTED', this)
   },
   computed: {
     PREFERENCE () {

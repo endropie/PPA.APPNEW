@@ -1,11 +1,11 @@
 <template>
 <q-page padding class="form-page">
-  <q-card inline class="main-box q-ma-sm" v-if="FORM.show" :dark="LAYOUT.isDark">
+  <q-card inline class="main-box q-ma-sm" v-if="FORM.show" >
     <q-card-section>
       <form-header :title="`${$tc('form.revision')} - ${$tc('general.work_order')}`.toUpperCase()" >
       </form-header>
     </q-card-section>
-    <q-separator :dark="LAYOUT.isDark" />
+    <q-separator  />
     <q-card-section class="row q-col-gutter-x-sm">
       <!-- COLUMN::1st customer Identitity -->
 
@@ -14,7 +14,6 @@
         v-model="rsForm.line_id"
         :label="$tc('items.preline')"
         :disable="IssetWorkOrderItems"
-        :dark="LAYOUT.isDark"
         :options="LineOptions.filter(x => x.row.ismain)" clearable
         v-validate="'required'"
         :error="errors.has('line_id')"
@@ -30,7 +29,6 @@
             v-model="rsForm.date"
             v-validate="`required|date_format:yyyy-MM-dd` + FORM.ifCreate(`|after:${$app.moment().add(-1,'days').format('YYYY-MM-DD')}`,'')"
             :date-options="(date) => FORM.ifCreate(date >= $app.moment().format('YYYY/MM/DD'), true)"
-            :dark="LAYOUT.isDark"
             :error="errors.has('date')"
             :error-message="errors.first('date')">
           </ux-date>
@@ -39,7 +37,6 @@
             name="shift_id"
             :label="$tc('label.shift')" stack-label
             v-model="rsForm.shift_id"
-            :dark="LAYOUT.isDark"
             :options="ShiftOptions" filter
             map-options emit-value
             v-validate="'required'"
@@ -52,20 +49,18 @@
       <!-- COLUMN::2th Detail Items & Lines -->
       <q-field class="col-12" prefix="Material production" borderless dense
         :disable="IssetWorkOrderItems"
-        :dark="LAYOUT.isDark"
         :error="errors.has(`stockist_from`)"
         :error-message="errors.first('stockist_from')">
         <q-option-group :name="`stockist_from`" type="radio"
           v-model="rsForm.stockist_from" inline
           v-validate="'required'"
-          :dark="LAYOUT.isDark"
           :disable="IssetWorkOrderItems"
           :options="CONFIG.items['stockists'].filter(stockist => ['FM','NC','NCR'].indexOf(stockist.value) > -1 )" />
       </q-field>
       <div class="col-12">
         <q-markup-table class="main-box bordered no-shadow no-highlight th-uppercase"
           dense separator="horizontal"
-          :dark="LAYOUT.isDark">
+          >
           <q-tr>
             <q-th key="prefix"></q-th>
             <q-th key="item_id">{{$tc('items.part_name')}}</q-th>
@@ -82,7 +77,6 @@
               <q-td key="item_id" width="35%" >
                 <ux-select-filter autofocus
                   :name="`work_order_items.${index}.item_id`"
-                  :dark="LAYOUT.isDark"
                   v-model="row.item_id"
                   v-validate="'required'"
                   outlined dense hide-bottom-space color="blue-grey-4"
@@ -100,12 +94,11 @@
                 <q-input readonly
                   :value="row.item ? row.item.part_subname : null"
                   outlined dense hide-bottom-space color="blue-grey-5"
-                  :dark="LAYOUT.isDark" />
+                   />
               </q-td>
               <q-td key="unit_id"  width="15%">
                 <q-select
                   :name="`work_order_items.${index}.unit_id`"
-                  :dark="LAYOUT.isDark"
                   v-model="row.unit_id"
                   outlined dense hide-bottom-space color="blue-grey-4"
                   :options="ItemUnitOptions[index]"
@@ -121,7 +114,7 @@
                   :name="`work_order_items.${index}.target`"
                   type="number" :min="0" align="center"
                   v-model="row.target"
-                  :dark="LAYOUT.isDark" color="blue-grey-4"
+                   color="blue-grey-4"
                   outlined dense hide-bottom-space no-error-icon
                   v-validate="`required|gt_value:0|max_value:${MaxStock[index]}`"
                   :error="errors.has(`work_order_items.${index}.target`)"
@@ -132,7 +125,7 @@
                 <q-input  style="min-width:80px"
                   v-model="row.ngratio" type="number" min="0"
                   outlined dense hide-bottom-space no-error-icon align="right" suffix="%"
-                  :dark="LAYOUT.isDark" color="blue-grey-4"
+                   color="blue-grey-4"
                   v-validate="'required'"
                   :name="`work_order_items.${index}.ngratio`" data-vv-as="ngratio"
                   :error="errors.has(`work_order_items.${index}.ngratio`)"
@@ -144,7 +137,7 @@
               <q-td key="quantity"  width="15%">
                 <q-input style="min-width:120px"
                   :name="`work_order_items.${index}.quantity`" type="number"
-                  :dark="LAYOUT.isDark" color="blue-grey-6"
+                   color="blue-grey-6"
                   v-model="row.quantity" disable
                   outlined dense hide-bottom-space no-error-icon align="right"
                   v-validate="`required|gt_value:0|max_value:${MaxStock[index]}`"
@@ -167,12 +160,11 @@
         <q-input name="description" type="textarea" rows="3"
           stack-label :label="$tc('label.description')"
           filled
-          :dark="LAYOUT.isDark"
           v-model="rsForm.description"/>
 
       </div>
     </q-card-section>
-    <q-separator :dark="LAYOUT.isDark" />
+    <q-separator  />
     <q-card-actions >
       <q-btn :label="$tc('form.cancel')" icon="cancel" color="dark" @click="FORM.toBack()"></q-btn>
       <q-btn :label="$tc('form.reset')" icon="refresh" color="light" @click="setForm(FORM.data)"></q-btn>
@@ -181,7 +173,7 @@
       </q-btn>
     </q-card-actions>
   </q-card>
-    <q-inner-loading :showing="FORM.loading" :dark="LAYOUT.isDark"><q-spinner-dots size="70px" color="primary" /></q-inner-loading>
+    <q-inner-loading :showing="FORM.loading" ><q-spinner-dots size="70px" color="primary" /></q-inner-loading>
 </q-page>
 </template>
 
@@ -320,7 +312,6 @@ export default {
           let total_packing = 0
           detail.packing_items.map((packing) => {
             total_packing += packing.unit_amount
-            console.warn(packing, total_packing)
           }, 0)
 
           if(total_packing > result) result = 1000
@@ -487,7 +478,6 @@ export default {
       }
     },
     setTotalQuantity(row) {
-      // console.log(this.FORM)
       return Math.ceil(Number(row.target) + (Number(row.target) * Number(row.ngratio) / 100))
     },
     addNewItem() {

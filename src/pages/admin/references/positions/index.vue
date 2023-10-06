@@ -1,7 +1,7 @@
 <template>
   <q-page padding class="page-index">
     <q-pull-to-refresh @refresh="TABLE.refresh" inline>
-      <q-table ref="table" class="table-index th-uppercase" :dark="LAYOUT.isDark"
+      <q-table ref="table" class="table-index th-uppercase"
         color="primary"
         :title="TABLE.getTitle()"
         :data="TABLE.rowData"

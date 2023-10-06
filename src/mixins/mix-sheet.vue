@@ -50,7 +50,7 @@ export default {
 
     },
     SHEET__LOAD (i, newOption, callback = null) {
-      if (callback && typeof callback !== 'function') console.warn('[PLAY] Callback is not function!');
+      if (callback && typeof callback !== 'function') console.error('[PLAY] Callback is not function!');
 
       if (this.SHEET.hasOwnProperty(i) && typeof this.SHEET[i] !== 'function') {
 
@@ -82,7 +82,7 @@ export default {
       }
     },
     SHEET__REQUEST (callback = null) {
-      if (callback && typeof callback !== 'function') console.warn('[PLAY] Callback is not function!');
+      if (callback && typeof callback !== 'function') console.error('[PLAY] Callback is not function!');
 
       let requests = []
       for (const i in this.SHEET) {
@@ -109,7 +109,6 @@ export default {
       }
       this.$axios.all(requests)
         .finally((final)=> {
-          // if(process.env.DEV) console.warn('[PLAY] SHEET.REQUEST.ALL.finally')
           if (callback) callback()
         })
 

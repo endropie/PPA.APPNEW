@@ -92,7 +92,6 @@ export default {
     },
 
     show (mode = {}) {
-      console.warn('SHOW', mode, this.$router)
       this.path = mode.path
       this.route.meta = mode.meta
       this.route.params = mode.params

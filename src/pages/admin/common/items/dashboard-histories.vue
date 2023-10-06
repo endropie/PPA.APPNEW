@@ -7,7 +7,7 @@
         @click="show = !show"/>
       <div class="text-subtitle2 text-uppercase text-truncate ellipsis">Part Histories</div>
     </q-card-section>
-    <q-separator :dark="LAYOUT.isDark" />
+    <q-separator/>
     <q-card-section v-show="show" class="q-pa-sm">
       <q-table dense class="no-shadow" style="height:200px"
         :data="data"
@@ -179,8 +179,6 @@ export default {
         }
 
         this.onServe(callback, { page, rowsPerPage, rowsNumber, sortBy, descending })
-        // console.warn('returnedData', returnedData)
-        // clear out existing data and add new
       }, 500)
     },
 
@@ -201,7 +199,7 @@ export default {
           callback(response.data.data)
         })
         .catch((error) => {
-          console.warn(error.response || error)
+          console.error(error.response || error)
           return []
         })
         .finally(() => {

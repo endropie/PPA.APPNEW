@@ -388,7 +388,6 @@ export default {
     },
     loadDelivery (request = Object.assign({})) {
       let parameter = []
-      if (!this.rsForm.customer_id) return console.warn('CUSTOMER INPUT FIRST!')
       parameter.push(`customer_id=${this.rsForm.customer_id}`)
       const paginate = request.pagination || {}
       const limit = paginate.rowsPerPage || this.deliveryTable.pagination.rowsPerPage
@@ -396,12 +395,10 @@ export default {
       const status = this.deliveryTable.isValidated ? '&status=VALIDATED' : ''
       const begin = this.deliveryTable.begin_date ? `&begin_date=${this.deliveryTable.begin_date}` : ''
       const until = this.deliveryTable.until_date ? `&until_date=${this.deliveryTable.until_date}` : ''
-      // const filters = this.deliveryTable.filters ? `&search=${this.deliveryTable.filters.join('+')}` : ''
       const poreference = this.deliveryTable.poreference ? `&request_reference_number=${this.deliveryTable.poreference.join('+')}` : ''
       const order = this.deliveryTable.request_order_id ? `&request_order_id=${this.deliveryTable.request_order_id}` : ''
 
       let api = `${this.deliveryTable.api}?invoicing=true&or_acc_invoice_id=${this.rsForm.id}&limit=${limit}&page=${page}&${parameter.join('&')}${status}${poreference}${order}${begin}${until}`
-      console.info('[PLAY] API GET:', api)
       this.deliveryTable.loading = true
       this.$axios.get(api)
         .then((response) => {
@@ -420,7 +417,7 @@ export default {
     },
     loadOrder (request = Object.assign({})) {
       let parameter = []
-      if (!this.rsForm.customer_id) return console.warn('CUSTOMER INPUT FIRST!')
+      if (!this.rsForm.customer_id) return this.$q.notify('CUSTOMER INPUT FIRST!')
       parameter.push(`customer_id=${this.rsForm.customer_id}`)
       const paginate = request.pagination || {}
       const limit = paginate.rowsPerPage || this.orderTable.pagination.rowsPerPage
@@ -431,7 +428,6 @@ export default {
       const filters = this.orderTable.filters ? `&search=${this.orderTable.filters.join('+')}` : ''
 
       let api = `${this.orderTable.api}?invoicing=true&or_acc_invoice_id=${this.rsForm.id}&limit=${limit}&page=${page}&${parameter.join('&')}${status}${filters}${begin}${until}`
-      console.info('[PLAY] API GET:', api)
       this.orderTable.loading = true
       this.$axios.get(api)
         .then((response) => {

@@ -47,7 +47,6 @@ export default {
     this.loading = true
     this.$axios.get(`/api/v1/factories/work-orders/${String(this.record.id)}?mode=summary`)
       .then((response) => {
-        console.warn('RES', response)
         this.row = response.data
       }).catch((error) => {
         console.error(error.response || error)

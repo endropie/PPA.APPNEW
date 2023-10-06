@@ -7,13 +7,11 @@
 
           <q-chip class="text-uppercase" square outline
             :label="$tc('form.temporary')"
-            :dark="LAYOUT.isDark"
             color="orange-10"
             v-if="rsForm.is_internal" />
 
           <q-chip class="text-uppercase" square outline
             :label="rsForm.customer.order_mode"
-            :dark="LAYOUT.isDark"
             color="blue-grey"
             v-if="rsForm.transaction === 'REGULER' && rsForm.customer.order_mode == 'ACCUMULATE'"
           />
@@ -28,7 +26,6 @@
       <div class="col-12 col-md-6" >
         <q-input disable hint=""
           :label="$tc('general.customer')"
-          :dark="LAYOUT.isDark"
           :value="rsForm.customer ? `${rsForm.customer.code} - ${rsForm.customer.name}` : null"
         />
         <div class="row q-col-gutter-x-sm">
@@ -36,7 +33,6 @@
             name="date" type="date"
             stack-label label="Date"
             v-model="rsForm.date"
-            :dark="LAYOUT.isDark"
             v-validate="'required'"
             :error="errors.has('date')"
             :error-message="errors.first('date')"/>
@@ -49,21 +45,18 @@
           <q-input class="col" name="customer_name"
             :label="$tc('label.name')"  stack-label
             v-model="rsForm.customer_name"
-            :dark="LAYOUT.isDark"
             v-validate="'required'"
             :error="errors.has('customer_name')" />
 
           <q-input class="col-12 col-sm-auto" name="customer_phone"
             :label="$tc('label.phone')"  stack-label
             v-model="rsForm.customer_phone"
-            :dark="LAYOUT.isDark"
             v-validate="''"
             :error="errors.has('customer_phone')"/>
         </div>
         <q-input type="textarea" autogrow rows="3"
           name="customer_address"
           :label="$tc('label.address')"  stack-label
-          :dark="LAYOUT.isDark"
           v-model="rsForm.customer_address"
         />
       </div>
@@ -71,7 +64,7 @@
       <div class="col-12 q-my-sm">
         <q-markup-table bordered class="main-box no-shadow no-highlight"
           dense separator="horizontal"
-          :dark="LAYOUT.isDark">
+          >
           <thead>
             <q-tr class="text-uppercase" style="line-height:30px">
               <q-th key="prefix" width="50px"></q-th>
@@ -93,7 +86,6 @@
                   hide-bottom-space no-error-icon
                   filter emit-value map-options
                   :options="ItemOptions"
-                  :dark="LAYOUT.isDark" :options-dark="LAYOUT.isDark"
                   v-validate="`required`"
                   :error="errors.has(`delivery_order_items.${index}.item_id`)"
                   @input="(val)=>{ setItemReference(index, val) }"
@@ -109,7 +101,6 @@
                   v-model="row.quantity"
                   outlined dense color="blue-grey-5"
                   hide-bottom-space no-error-icon
-                  :dark="LAYOUT.isDark"
                   v-validate="`required|gt_value:0`"
                   :error="errors.has(`delivery_order_items.${index}.quantity`)" />
               </q-td>
@@ -121,7 +112,6 @@
                   hide-bottom-space no-error-icon
                   map-options emit-value
                   :options="ItemUnitOptions[index]"
-                  :dark="LAYOUT.isDark" :options-dark="LAYOUT.isDark"
                   v-validate="row.item_id ? 'required' : ''"
                   :error="errors.has(`delivery_order_items.${index}.unit_id`)"
                   @input="(val)=>{ setUnitReference(index, val) }"
@@ -142,18 +132,18 @@
           name="description"
           :data-vv-as="$tc('label.description')"
           :label="$tc('label.description')" stack-label
-          filled :dark="LAYOUT.isDark"
+          filled
           v-model="rsForm.description"/>
       </div>
     </q-card-section>
-    <q-separator :dark="LAYOUT.isDark" />
+    <q-separator  />
     <q-card-actions class="q-mx-lg">
       <q-btn :label="$tc('form.cancel')" icon="cancel" color="dark" @click="FORM.toBack()"></q-btn>
       <q-btn :label="$tc('form.reset')" icon="refresh" color="light" @click="setForm(FORM.data)"></q-btn>
       <q-btn :label="$tc('form.save')" icon="save" color="positive" @click="onSave()" v-if="IS_REVISE"></q-btn>
     </q-card-actions>
   </q-card>
-  <q-inner-loading :showing="FORM.loading" :dark="LAYOUT.isDark">
+  <q-inner-loading :showing="FORM.loading" >
     <q-spinner-dots size="70px" color="primary" />
   </q-inner-loading>
   <q-dialog ref="dialog-submit" persistent>

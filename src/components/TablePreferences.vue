@@ -13,14 +13,5 @@ export default {
       model:  null,
     }
   },
-  mounted() {
-    // console.warn('MOUNTED', this)
-  },
-  watch:{
-    // watch code
-  },
-  methods: {
-    // methode code
-  }
 }
 </script>

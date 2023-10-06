@@ -1,7 +1,7 @@
 <template>
   <q-page padding class="page-index" >
     <q-pull-to-refresh @refresh="TABLE.refresh" inline>
-      <q-table ref="table" class="table-index th-uppercase" color="primary" :dark="LAYOUT.isDark"
+      <q-table ref="table" class="table-index th-uppercase" color="primary"
         :title="TABLE.getTitle()"
         subtitle="cskc"
         :data="TABLE.rowData"
@@ -35,7 +35,7 @@
                 v-model="FILTERABLE.fill.date.value" type="date"  clearable
                 dense hide-bottom-space
                 standout="bg-blue-grey-5 text-white"
-                :bg-color="LAYOUT.isDark ? 'blue-grey-9' : 'blue-grey-1'"
+                :bg-color="$q.dark.isActive ? 'blue-grey-9' : 'blue-grey-1'"
                 @input="FILTERABLE.submit"/>
 
               <ux-select-filter class="col-12 col-sm-3"
@@ -43,7 +43,7 @@
                 :label="$tc('general.vehicle')"
                 dense hide-bottom-space hide-dropdown-icon
                 standout="bg-blue-grey-5 text-white"
-                :bg-color="LAYOUT.isDark ? 'blue-grey-9' : 'blue-grey-1'"
+                :bg-color="$q.dark.isActive ? 'blue-grey-9' : 'blue-grey-1'"
                 :options="VehicleOptions"
                 @input="FILTERABLE.submit" />
 
@@ -53,7 +53,7 @@
                 v-model="FILTERABLE.search" emit-value
                 :placeholder="`${$tc('form.search',2)}...`"
                 standout="bg-blue-grey-5 text-white"
-                :bg-color="LAYOUT.isDark ? 'blue-grey-9' : 'blue-grey-1'"
+                :bg-color="$q.dark.isActive ? 'blue-grey-9' : 'blue-grey-1'"
                 @input="FILTERABLE.submit">
 
                 <template slot="append">

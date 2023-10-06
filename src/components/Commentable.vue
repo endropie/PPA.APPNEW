@@ -78,18 +78,14 @@ export default {
       const apiUrl = `/api/v1/commentables?commentable_id=${this.id || ''}&commentable_type=${this.model}&latest=${latest}&loadup=${loadup}&limit=${this.fetchSize}&offset=${this.lists.length}`
       this.isLoading = true
 
-      // console.warn('MODEL', this.model, this.id)
-      // console.warn('GET', apiUrl)
       this.$axios.get(apiUrl)
         .then(response => {
           if (fv.loadup) {
-            // console.warn('LOAD UP', response)
             this.lastime = response.data.latest
             response.data.data.map(comment => {
               this.lists.unshift(comment)
             })
           } else {
-            // console.warn('LOAD DOWN', response)
             this.isLatest = Boolean(response.data.data.length < 1 || (this.lists.length + response.data.data.length) >= parseInt(response.data.total))
             this.lastime = response.data.latest
 

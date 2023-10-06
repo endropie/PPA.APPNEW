@@ -400,7 +400,7 @@ export default {
         })
         .catch(error => {
           this.$q.notify(`DELIVERY INTERNAL FETCH ERROR ${String(error)}`)
-          console.warn(error.response || error)
+          console.error(error.response || error)
         })
     },
     scannedDeportationGood (id) {
@@ -426,12 +426,11 @@ export default {
         })
         .catch(error => {
           this.$q.notify(`DELIVERY INTERNAL FETCH ERROR ${String(error)}`)
-          console.warn(error.response || error)
+          console.error(error.response || error)
         })
     },
     scannedDeliveryLoad (id) {
       const added = (data) => {
-        // console.warn('ADDED', data);
         const len = this.rsForm.delivery_checkout_loads.length
         const newitem = Object.assign(this.setLoadDefault())
         if (this.rsForm.delivery_checkout_loads[len - 1]) {
@@ -452,7 +451,7 @@ export default {
           else added(response.data[0])
         })
         .catch(error => {
-          console.warn(error.response || error)
+          console.error(error.response || error)
         })
     },
     scannedDeliveryOrder (id, index) {
@@ -505,7 +504,6 @@ export default {
       const submit = () => {
         this.FORM.loading = true
         const { apiUrl, method } = this.FORM.meta()
-        console.warn(this.rsForm)
         this.$axios.set(method, apiUrl, this.rsForm)
           .then((response) => {
             let message = this.rsForm.vehicle.number + ' - #' + response.data.fullnumber

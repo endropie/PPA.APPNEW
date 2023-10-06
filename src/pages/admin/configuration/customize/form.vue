@@ -2,7 +2,7 @@
 <q-page padding style="max-width:900px">
   <div class="row q-col-gutter-md">
     <div class="col-12 col-md-6">
-      <q-list class="main-box " bordered :dark="LAYOUT.isDark">
+      <q-list class="main-box " bordered >
         <q-item-label header>Layout</q-item-label>
         <q-item>
           <q-item-section side>Night Mode</q-item-section>
@@ -28,7 +28,7 @@
       </q-list>
     </div>
     <div class="col-12 col-md-6">
-      <q-list class="main-box " bordered :dark="LAYOUT.isDark">
+      <q-list class="main-box " bordered >
         <q-item-label header>System</q-item-label>
         <q-item>
           <q-item-section>
@@ -37,7 +37,6 @@
                   label="Language"
                   v-model="LANG"
                   class="col-12"
-                  :dark="LAYOUT.isDark"
                   :options ="locales"
                 />
             </div>
@@ -84,7 +83,6 @@ export default {
   watch: {
      LANG (locale) {
       // dynamic import, so loading on demand only
-      console.warn('LANG', locale)
       import(`quasar/lang/${locale.value}`).then(lang => {
         this.$q.lang.set(lang.default)
       })
@@ -103,11 +101,6 @@ export default {
       set (val) {
         this.$store.commit('admin/setMode', val)
       }
-    },
-  },
-  methods: {
-    test(){
-      console.log(this.FORM)
     },
   },
 }

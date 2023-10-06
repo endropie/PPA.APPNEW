@@ -19,7 +19,6 @@
           name="transaction"
           v-model="rsForm.transaction"
           :options="CONFIG.options.transaction_mode"
-          :dark="LAYOUT.isDark"
           v-validate="'required'"
           :disable="Boolean(rsForm.customer_id)"
         />
@@ -88,7 +87,7 @@
       <!-- COLUMN:: Part items lists -->
       <q-markup-table bordered class="main-box no-shadow no-highlight q-mb-sm"
         dense separator="horizontal"
-        :dark="LAYOUT.isDark">
+        >
         <thead>
           <q-tr class="text-uppercase" style="line-height:30px">
             <q-th key="prefix" width="50px"></q-th>
@@ -182,7 +181,7 @@
       <q-btn :label="$tc('form.save')" icon="save" color="positive" @click="onSave()"></q-btn>
     </q-card-actions>
   </q-card>
-  <q-inner-loading :showing="FORM.loading" :dark="LAYOUT.isDark">
+  <q-inner-loading :showing="FORM.loading" >
     <q-spinner-dots size="70px" color="primary" />
   </q-inner-loading>
 </q-page>
@@ -284,7 +283,6 @@ export default {
           this.setForm(data || this.setDefault())
         })
         .catch((error) => {
-          // console.warn(error.response || error)
           let message = 'Incoming Good cant load!'
           if (error.response) message += ` [${error.response.statusText}:${error.response.status}]`
 

@@ -1,7 +1,7 @@
 <template>
   <q-page padding class="page-index" >
     <q-pull-to-refresh @refresh="TABLE.refresh" inline>
-      <q-table  ref="table" class="table-index th-uppercase" color="primary" :dark="LAYOUT.isDark"
+      <q-table  ref="table" class="table-index th-uppercase" color="primary"
         :title="TABLE.getTitle()"
         :data="TABLE.rowData"
         :columns="TABLE.columns"
@@ -41,8 +41,7 @@
                 v-model="FILTERABLE.search" emit-value
                 :placeholder="`${$tc('form.search',2)}...`"
                 standout="bg-blue-grey-5 text-white"
-                :bg-color="LAYOUT.isDark ? 'blue-grey-9' : 'blue-grey-1'"
-                :dark="LAYOUT.isDark"
+                :bg-color="$q.dark.isActive ? 'blue-grey-9' : 'blue-grey-1'"
                 @input="FILTERABLE.submit">
 
                 <template slot="append">
@@ -138,7 +137,6 @@ export default {
       this.$q.loading.show()
       this.$axios.post(url)
         .then((response) => {
-          console.warn('ACCURATE', response)
           let msg = response.data.d[0] || ''
           return (response.data.s)
             ? this.$app.notify.success('ACCURATE PUSH', msg)
@@ -155,7 +153,6 @@ export default {
       this.$q.loading.show()
       this.$axios.post(url)
         .then((response) => {
-          console.warn('OK', response.data.filter(x => x.s === true).length);
           let arrMsg = []
           if (response.data.filter(x => x.s === true).length) {
             arrMsg.push(response.data.filter(x => x.s === true).length + ' success')

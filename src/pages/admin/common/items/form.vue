@@ -674,7 +674,7 @@ export default {
             this.$router.go(-1)
           })
           .catch((error) => {
-            console.warn(error)
+            console.error(error)
             this.FORM.response.fields(error.response)
             this.FORM.response.error(error.response || error, 'ITEM UPDATE')
           })

@@ -1,6 +1,6 @@
 <template>
 <q-page padding class="form-page row justify-center">
-  <q-card inline class="main-box self-start" :dark="LAYOUT.isDark" v-if="FORM.show">
+  <q-card inline class="main-box self-start" v-if="FORM.show">
     <q-card-section>
       <form-header :title="FORM.title()" :subtitle="FORM.subtitle()" >
       </form-header>
@@ -14,7 +14,6 @@
           autocomplete="off"
           v-model="rsForm.number"
           v-validate="'required'"
-          :dark="LAYOUT.isDark"
           :error="errors.has('number')"
           :error-message="errors.first('number')"
         />
@@ -25,7 +24,6 @@
           v-model="rsForm.owner"
           :options="CONFIG.references.vehicle_owner"
           v-validate="'required'"
-          :dark="LAYOUT.isDark"
           :error="errors.has('owner')"
           :error-message="errors.first('owner')"/>
 
@@ -35,7 +33,6 @@
           v-model="rsForm.type"
           :options="CONFIG.references.vehicle_type"
           v-validate="'required'"
-          :dark="LAYOUT.isDark"
           :error="errors.has('type')"
           :error-message="errors.first('type')"/>
 
@@ -45,7 +42,6 @@
           v-model="rsForm.department_id"
           :options="DepartmentOptions"
           emit-value map-options
-          :dark="LAYOUT.isDark"
           :error="errors.has('department_id')"
           :error-message="errors.first('department_id')"/>
         <div class="col-12">
@@ -58,18 +54,17 @@
           type="textarea"
           rows="3"
           :label="$tc('label.description')"  stack-label
-          :dark="LAYOUT.isDark"
         />
       </div>
     </q-card-section>
-    <q-separator :dark="LAYOUT.isDark" />
+    <q-separator/>
     <q-card-actions class="group">
       <q-btn :label="$tc('form.cancel')" icon="cancel" color="dark" @click="FORM.toBack()"></q-btn>
       <q-btn :label="$tc('form.reset')" icon="refresh" color="light" @click="FORM.reset()"></q-btn>
       <q-btn :label="$tc('form.save')" icon="save" color="positive" @click="onSave()"></q-btn>
     </q-card-actions>
   </q-card>
-  <q-inner-loading :showing="FORM.loading" :dark="LAYOUT.isDark">
+  <q-inner-loading :showing="FORM.loading">
     <q-spinner-dots size="70px" color="primary" />
   </q-inner-loading>
 </q-page>

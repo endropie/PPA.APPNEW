@@ -1,5 +1,5 @@
 <template>
-    <q-card highlight class="main-box no-margin no-shadow" :dark="LAYOUT.isDark">
+    <q-card highlight class="main-box no-margin no-shadow">
       <q-card-section>
         <span class="text-h4" header>{{$tc('label.general')}}</span>
       </q-card-section>
@@ -9,7 +9,6 @@
           label="Application Brand"
           v-model="rsForm.app_brand"
           v-validate="'required|max:12'"
-          :dark="LAYOUT.isDark"
           :error="errors.has('app_brand')"
           :error-message="errors.first('app_brand')"
         />
@@ -18,7 +17,6 @@
           label="Description"
           v-model="rsForm.app_description"
           v-validate="'max:191'"
-          :dark="LAYOUT.isDark"
           :error="errors.has('app_description')"
           :error-message="errors.first('app_description')"
         />
@@ -27,7 +25,6 @@
           label="Corporate Name"
           v-model="rsForm.app_corporate"
           v-validate="'max:191'"
-          :dark="LAYOUT.isDark"
           :error="errors.has('app_corporate')"
           :error-message="errors.first('app_corporate')"
         />
@@ -36,7 +33,6 @@
           label="Address"
           v-model="rsForm.app_corporate_address"
           v-validate="'max:191'"
-          :dark="LAYOUT.isDark"
           :error="errors.has('app_corporate_address')"
           :error-message="errors.first('app_corporate_address')"
         />
@@ -46,7 +42,7 @@
           <q-btn dense color="positive"  @click="onSave()">Save</q-btn>
       </q-card-actions>
 
-    <q-inner-loading :showing="FORM.loading" :dark="LAYOUT.isDark">
+    <q-inner-loading :showing="FORM.loading">
       <q-spinner-dots size="70px" color="primary" />
     </q-inner-loading>
     </q-card>

@@ -1,5 +1,5 @@
-// import RouteAdmin from './route-admin'
-// import RouteGuest from './route-guest'
+import RouteAdmin from './route-admin'
+import RouteGuest from './route-guest'
 
 const routes = [
   {
@@ -12,13 +12,13 @@ const routes = [
   }
 ]
 
-// RouteGuest.forEach(link => {
-//   routes.push(link)
-// })
+RouteGuest.forEach(link => {
+  routes.push(link)
+})
 
-// RouteAdmin.forEach(link => {
-//   routes.push(link)
-// })
+RouteAdmin.forEach(link => {
+  routes.push(link)
+})
 
 // Always leave this as last one
 if (process.env.MODE !== 'ssr') {

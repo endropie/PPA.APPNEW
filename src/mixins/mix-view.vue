@@ -33,9 +33,6 @@ export default {
       }
     }
   },
-  mounted () {
-    // console.info('[PLAY] MIX-VIEW is Mounted!')
-  },
   computed: {
     ROUTE () {
       return this.route || this.$route
@@ -50,7 +47,7 @@ export default {
   },
   methods: {
     VIEW__load (callback) {
-      if (typeof callback !== 'function') console.warn('*[PLAY]* - callback is function required')
+      if (typeof callback !== 'function') console.error('[PLAY] - callback is function required')
       this.VIEW.show = false
       this.VIEW.loading = true
 
@@ -133,7 +130,6 @@ export default {
       }).onOk(() => {
         this.$axios.delete(`${this.VIEW.resource.api}/${this.ROUTE.params.id}`)
           .then((response) => {
-            // console.warn(response)
             if (response.data.success) {
               this.$app.notify.success({
                 message: this.$tc('messages.success_deleted'),

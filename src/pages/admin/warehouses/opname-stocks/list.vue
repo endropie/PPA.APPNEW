@@ -1,7 +1,7 @@
 <template>
-  <q-card :dark="LAYOUT.isDark" v-bind="$attrs" v-on="$listeners">
+  <q-card  v-bind="$attrs" v-on="$listeners">
     <q-card-section>
-      <q-table class="no-shadow" :dark="LAYOUT.isDark"
+      <q-table class="no-shadow"
         :columns="[
           {name: 'part', label:$tc('label.part'), align:'left'},
           {name: 'stockist', label:$tc('items.stockist'), field:'stockist', align:'left'},

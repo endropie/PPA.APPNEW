@@ -19,9 +19,6 @@ export default {
     isChildren: { type: Boolean, default: false },
     countChild: { type: Boolean, default: false }
   },
-  mounted () {
-    console.warn('BASE meta', this.node.meta)
-  }
 }
 </script>
 

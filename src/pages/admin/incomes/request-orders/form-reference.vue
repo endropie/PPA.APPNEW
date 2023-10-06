@@ -1,6 +1,6 @@
 <template>
 <q-page padding class="main-page justify-center">
-  <q-card inline class="main-box" :dark="LAYOUT.isDark" v-if="FORM.show">
+  <q-card inline class="main-box"  v-if="FORM.show">
     <q-card-section>
       <form-header :title="FORM.title()" :subtitle="FORM.subtitle()" hide-menu>
         <q-chip square outline slot="optional" icon="assignment" color="blue-grey" class="text-weight-normal"
@@ -23,7 +23,6 @@
             :label="$tc('general.customer')"
             :disable="IssetItemDetails" v-validate="'required'"
             :options="CustomerOptions" filter clearable
-            :dark="LAYOUT.isDark" :options-dark="LAYOUT.isDark"
             @input="(val)=>{ setCustomerReference(val) }"
             :error="errors.has('customer')"
             :error-message="errors.first('customer')"
@@ -33,7 +32,6 @@
           <ux-date class="col-12 col-sm-6" name="date"
             stack-label :label="$tc('label.date')"
             v-model="rsForm.date" disable
-            :dark="LAYOUT.isDark"
             v-validate="'required'"
             :error="errors.has('date')"
             :error-message="errors.first('date')" />
@@ -41,7 +39,6 @@
             name="actived_date"
             stack-label :label="$tc('label.expired',2) + ' PO'"
             v-model="rsForm.actived_date"
-            :dark="LAYOUT.isDark"
             v-validate="rsForm.order_mode == 'PO' ? 'required' : ''"
             :error="errors.has('actived_date')"
             :error-message="errors.first('actived_date')"
@@ -61,7 +58,6 @@
             <q-input name="estimate_number" class="no-padding fit"
                 stack-label :label="$tc('label.no', 1, {v: 'PO '+$tc('label.estimate', 2)})"
                 v-model="rsForm.estimate_number"
-                :dark="LAYOUT.isDark"
                 v-validate="rsForm.is_estimate ? 'required' :''"
                 :error="errors.has('estimate_number')"
                 :error-message="errors.first('estimate_number')"
@@ -79,7 +75,6 @@
           <q-input name="reference_number" class="col-12"
             stack-label label="PO / Qoutation / Memo"
             v-model="rsForm.reference_number"
-            :dark="LAYOUT.isDark"
             v-validate="rsForm.order_mode === 'PO' ? 'required' :''"
             :error="errors.has('reference_number')"
             :error-message="errors.first('reference_number')"
@@ -94,7 +89,7 @@
       <div class="col-12 q-my-md">
         <q-markup-table class="main-box no-shadow no-highlight th-uppercase"
           dense bordered separator="vertical"
-          :dark="LAYOUT.isDark">
+          >
           <thead>
             <q-tr style="line-height:30px">
               <q-th key="item" class="text-left">{{$tc('items.part_name')}}</q-th>
@@ -134,7 +129,7 @@
           name="description"
           stack-label :label="$tc('label.description')"
           v-model="rsForm.description"
-          :dark="LAYOUT.isDark">
+          >
 
           <template slot="prepend">
             <q-icon name="rate_review"></q-icon>
@@ -144,14 +139,14 @@
       </div>
 
     </q-card-section>
-    <q-separator :dark="LAYOUT.isDark" />
+    <q-separator  />
     <q-card-actions class="q-mx-lg">
       <q-btn :label="$tc('form.cancel')" icon="cancel" color="dark" @click="FORM.toBack()"></q-btn>
       <q-btn :label="$tc('form.reset')" icon="refresh" color="light" @click="setForm(FORM.data)"></q-btn>
       <q-btn :label="$tc('form.save')" icon="save" color="positive" @click="onSave()" v-if="IS_EDITABLE"></q-btn>
     </q-card-actions>
   </q-card>
-  <q-inner-loading :showing="FORM.loading" :dark="LAYOUT.isDark"><q-spinner-dots size="70px" /></q-inner-loading>
+  <q-inner-loading :showing="FORM.loading" ><q-spinner-dots size="70px" /></q-inner-loading>
 </q-page>
 </template>
 
@@ -295,7 +290,6 @@ export default {
             this.setForm(data)
           })
           .catch(error => {
-            console.warn('[FORM:routing]', error)
             this.$app.response.error(error.response, 'Load Form')
           })
           .finally(()=>{
@@ -328,7 +322,6 @@ export default {
         this.FORM.loading = true
         let {method, mode, apiUrl} = this.FORM.meta()
         apiUrl =  `${apiUrl}?mode=referenced`
-        console.warn('URL',apiUrl)
 
         this.$axios.set(method, apiUrl, this.rsForm)
         .then((response) => {

@@ -1,5 +1,5 @@
 <template>
-  <q-page padding class="column items-center" :dark="LAYOUT.isDark">
+  <q-page padding class="column items-center" >
     <page-print v-if="VIEW.show" class="q-ma-md shadow-2">
       <div slot="header-tags" class="print-hide">
         <ux-chip-status :row="rsView" tag outline small square icon='bookmark' />
@@ -11,7 +11,7 @@
           <div class="row justify-between q-col-gutter-sm" >
             <div class="col-auto self-end">
               <span class="text-h6 text-center q-pt-lg q-pl-sm">PRODUKSI</span>
-              <q-markup-table dense square class="no-shadow transparent" separator="none" :dark="LAYOUT.isDark">
+              <q-markup-table dense square class="no-shadow transparent" separator="none" >
                 <tbody>
                   <tr>
                     <td class="text-left">{{$tc('general.line')}}</td><td>{{ rsView.line.name }}</td>
@@ -23,7 +23,7 @@
               </q-markup-table>
             </div>
             <div class="col-auto">
-              <q-markup-table bordered dense square class="super-dense no-shadow transparent" separator="cell" :dark="LAYOUT.isDark">
+              <q-markup-table bordered dense square class="super-dense no-shadow transparent" separator="cell" >
                 <tbody>
                   <tr>
                     <td>{{$tc('label.number')}}</td>
@@ -43,7 +43,7 @@
           </div>
         </div>
         <div class="col-12">
-          <q-markup-table bordered dense square class="no-shadow transparent" separator="cell" :dark="LAYOUT.isDark" >
+          <q-markup-table bordered dense square class="no-shadow transparent" separator="cell"  >
             <thead>
               <tr>
                 <th>{{this.$tc('general.cust')}}</th>

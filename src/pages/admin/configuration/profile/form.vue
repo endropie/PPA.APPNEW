@@ -2,7 +2,7 @@
   <q-page padding>
     <div class="row q-col-gutter-md">
       <div class="col-12">
-        <q-list class="main-box " bordered :dark="LAYOUT.isDark">
+        <q-list class="main-box " bordered >
           <q-item-label header>User Setting</q-item-label>
           <q-item>
             <q-item-section avatar>
@@ -25,7 +25,6 @@
                     type="password"
                     v-model="rsPass.newpassword"
                     v-validate="'required|min:8'"
-                    :dark="LAYOUT.isDark"
                     :error="errors.has('form-pass.newpassword')"
                     :error-message="errors.first('form-pass.newpassword')"
                   />
@@ -36,7 +35,6 @@
                     no-pass-toggle
                     v-model="rsPass.c_newpassword"
                     v-validate="'required'"
-                    :dark="LAYOUT.isDark"
                     :error="errors.has('form-pass.c_newpassword')"
                     :error-message="errors.first('form-pass.c_newpassword')"
                   />
@@ -46,7 +44,6 @@
                     type="password"
                     v-model="rsPass.password"
                     v-validate="'required|min:8'"
-                    :dark="LAYOUT.isDark"
                     :error="errors.has('form-pass.password')"
                     :error-message="errors.first('form-pass.password')"
                   />

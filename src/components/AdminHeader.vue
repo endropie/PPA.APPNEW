@@ -3,7 +3,7 @@
     flat stretch
     :align="align"
     :class="{'hide-arrow': $q.screen.lt.sm}"
-    :content-class="{'bg-faded text-white':LAYOUT.isDark}">
+    :content-class="{'bg-faded text-white':$q.dark.isActive}">
     <template v-slot:label>
       <div class="row items-center no-wrap">
         <q-icon v-if="$q.screen.lt.sm" name="person" />
@@ -34,7 +34,7 @@
         </q-btn-dropdown>
       </div>
 
-      <q-separator vertical inset class="q-mx-lg" :dark="LAYOUT.isDark"/>
+      <q-separator vertical inset class="q-mx-lg"/>
 
       <div class="column items-center">
         <q-avatar size="72px">
@@ -71,8 +71,6 @@ export default {
   },
   watch: {
      LANG (locale) {
-      // dynamic import, so loading on demand only
-      console.warn('LANG', locale)
       import(`quasar/lang/${locale.value}`).then(lang => {
         this.$q.lang.set(lang.default)
       })
@@ -86,7 +84,7 @@ export default {
   computed: {
     NIGHMODE: {
       get () {
-        return this.$store.state.admin.LAYOUT.isDark
+        return this.$q.dark.isActive
       },
       set (val) {
         this.$store.commit('admin/setMode', val)

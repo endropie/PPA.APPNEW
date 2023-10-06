@@ -292,7 +292,6 @@ export default {
 
     // ************** TABLE ********************
     TABLE__init (to) {
-      // if(process.env.DEV) console.warn('TABLE__init')
       if (!to) to = this.$route
       const params = (to.query.hasOwnProperty('return') && to.meta.hasOwnProperty('lastest'))
         ? to.meta.lastest.query
@@ -332,7 +331,6 @@ export default {
       }
     },
     TABLE__refresh (done = null) {
-      // if(process.env.DEV) console.warn('TABLE__refresh')
       if (this.TABLE.mode === 'datagrid') {
         this.DATAGRID__getData(done)
       } else {
@@ -340,7 +338,6 @@ export default {
       }
     },
     TABLE__compute (prop) {
-      // if(process.env.DEV) console.warn('TABLE__compute')
       if (this.TABLE.mode === 'datagrid') {
         this.DATAGRID__compute(prop)
       } else {

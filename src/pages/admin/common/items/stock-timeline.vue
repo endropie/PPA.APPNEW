@@ -115,11 +115,10 @@ export default {
       params.push(`id=${this.item.id}`)
       this.$axios.get('api/v1/common/items?'+params.join('&'))
       .then(response => {
-        console.warn(response)
         this.increase(response.data)
       })
       .catch(error => {
-        console.warn(error.response || error)
+        console.error(error.response || error)
 
       })
     },
@@ -132,10 +131,8 @@ export default {
         if (!this.timeline[m]) this.timeline[m] = Object.assign({})
         if (!this.timeline[m][d]) this.timeline[m][d] = []
         if (!this.timeline[m][d].find(x => x.id === element.id)) {
-          // console.warn('push', element)
           this.timeline[m][d].push(element);
         }
-        console.warn('all', this.timeline)
       }
 
     }

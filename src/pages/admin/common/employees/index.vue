@@ -3,7 +3,6 @@
     <q-pull-to-refresh @refresh="TABLE.refresh" inline>
       <q-table  ref="table" class="table-index table-striped th-uppercase"
         :title="TABLE.getTitle()"
-        :dark="LAYOUT.isDark"
         :data="TABLE.rowData"
         :columns="TABLE.columns"
         :filter="TABLE.filter"

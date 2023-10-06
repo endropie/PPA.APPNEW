@@ -25,7 +25,7 @@
           <div class="row justify-between q-gutter-sm" >
             <div class="items-end q-pt-lg">
               <div class="text-h6 q-px-xs">SALES ORDER</div>
-              <q-markup-table class="super-dense no-shadow" separator="none" :dark="LAYOUT.isDark">
+              <q-markup-table class="super-dense no-shadow" separator="none" >
                 <tbody>
                   <tr>
                     <td class="text-uppercase">{{$tc('general.customer')}}</td>
@@ -39,7 +39,7 @@
               </q-markup-table>
             </div>
             <div class="column items-start q-gutter-sm">
-              <q-markup-table dense square bordered class="super-dense no-shadow " separator="cell" :dark="LAYOUT.isDark">
+              <q-markup-table dense square bordered class="super-dense no-shadow " separator="cell" >
                 <tbody>
                   <tr><td>{{$tc('label.number')}}</td><td>{{rsView.fullnumber || rsView.number}}</td></tr>
                   <tr><td>{{$tc('label.date')}}</td><td>{{ $app.date_format(rsView.date) }}</td></tr>
@@ -51,7 +51,7 @@
           </div>
         </div>
         <div class="col-12">
-          <q-markup-table dense bordered square separator="cell" class="table-print no-shadow no-highlight"  :dark="LAYOUT.isDark">
+          <q-markup-table dense bordered square separator="cell" class="table-print no-shadow no-highlight"  >
             <thead>
             <q-tr style="line-height:25px">
               <q-th width="10px">{{ $tc('label.no') }}</q-th>
@@ -149,7 +149,7 @@
           <q-btn dense flat color="secondary" class="print-hide float-right"
             :label="$tc('form.show',1, {v:$tc('general.sj_delivery')})"
             v-show="!show_delivery" @click="show_delivery = true"/>
-          <q-list v-show="show_delivery" bordered :dark="LAYOUT.isDark" class="main-box">
+          <q-list v-show="show_delivery" bordered  class="main-box">
             <q-item>
               <q-item-section>{{$tc('general.sj_delivery', 2)}} ({{rsView.delivery_orders.length}})</q-item-section>
               <q-item-section side>
@@ -157,7 +157,7 @@
               </q-item-section>
             </q-item>
             <q-separator />
-            <q-item clickable v-ripple @click="showDO(link.id)" :dark="LAYOUT.isDark"
+            <q-item clickable v-ripple @click="showDO(link.id)"
               v-for="(link, index) in rsView.delivery_orders" :key="index">
               <q-item-section>
                 {{link.fullnumber || link.number}}
@@ -221,8 +221,8 @@
           <div class="col-12 col-sm-6 col-md-4" v-if="rsView.delivery_orders">
             <q-card>
               <q-expansion-item header-class="bg-cyan-8 text-white" icon="local_shipping" :label="`SJDO ${$tc('general.sj_delivery', 2)} (${rsView.delivery_orders.length})`">
-                <q-list bordered separator :dark="LAYOUT.isDark" class="main-box">
-                  <q-item clickable v-ripple @click="showDO(link.id)" :dark="LAYOUT.isDark"
+                <q-list bordered separator  class="main-box">
+                  <q-item clickable v-ripple @click="showDO(link.id)"
                     v-for="(link, index) in rsView.delivery_orders" :key="index">
                     <q-item-section>
                       {{link.fullnumber || link.number}}
@@ -241,7 +241,7 @@
     <q-inner-loading :showing="VIEW.loading">
       <q-spinner size="50px" color="primary" />
     </q-inner-loading>
-    <ux-modal-view ref="modal" fit icon="local_shipping" :title="$tc('general.sj_delivery')" :dark="LAYOUT.isDark" />
+    <ux-modal-view ref="modal" fit icon="local_shipping" :title="$tc('general.sj_delivery')"  />
   </q-page>
 </template>
 
@@ -358,7 +358,6 @@ export default {
       let url = `/api/v1/incomes/request-orders/invoice/${row.id}/accurate/push`
       this.$axios.post(url)
         .then((response) => {
-          console.warn('OK', response)
           let msg = response.data.d[0] || ''
           return (response.data.s)
             ? this.$app.notify.success('[ACCURATE]', msg)

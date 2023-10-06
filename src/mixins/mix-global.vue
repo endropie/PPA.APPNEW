@@ -15,9 +15,6 @@ export default {
       }
     }
   },
-  mounted () {
-    // console.info('MIX-GLOBAL mounted!')
-  },
   methods: {
 
     formatNumberAmount (number, decimals, decimator, separator) {
@@ -147,11 +144,6 @@ export default {
 
       this.$q.notify(values)
     },
-
-    JSONconsole (values) {
-      console.log(JSON.stringify(values, null, '  '))
-      return false
-    }
   }
 }
 </script>

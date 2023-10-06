@@ -13,7 +13,6 @@
       <q-field class="col-12"
         borderless stack-label hide-bottom-space
         :label="$tc('label.mode',1, {v:$tc('label.transaction')})"
-        :dark="LAYOUT.isDark"
         :disable="IssetItemDetails"
         :error="errors.has('transaction')">
 
@@ -21,7 +20,6 @@
           name="transaction" type="radio" inline
           v-model="rsForm.transaction"
           v-validate="'required'"
-          :dark="LAYOUT.isDark"
           :disable="IssetItemDetails"
           :options="CONFIG.options['transaction_mode'].concat({ 'label': 'SAMPLE', 'value': 'SAMPLE' })"
         />
@@ -52,7 +50,6 @@
             name="date" type="date"
             stack-label label="Date"
             v-model="rsForm.date"
-            :dark="LAYOUT.isDark"
             v-validate="'required'"
             :error="errors.has('date')"
             :error-message="errors.first('date')"/>
@@ -64,21 +61,18 @@
           <q-input class="col" name="customer_name"
             :label="$tc('label.name')"  stack-label
             v-model="rsForm.customer_name"
-            :dark="LAYOUT.isDark"
             v-validate="'required'"
             :error="errors.has('customer_name')" />
 
           <q-input class="col-12 col-sm-auto" name="customer_phone"
             :label="$tc('label.phone')"  stack-label
             v-model="rsForm.customer_phone"
-            :dark="LAYOUT.isDark"
             v-validate="''"
             :error="errors.has('customer_phone')"/>
         </div>
         <q-input type="textarea" autogrow rows="3"
           name="customer_address"
           :label="$tc('label.address')"  stack-label
-          :dark="LAYOUT.isDark"
           v-model="rsForm.customer_address"
         />
       </div>
@@ -89,7 +83,7 @@
       <!-- COLUMN:: Part items lists -->
       <q-markup-table bordered class="main-box no-shadow no-highlight"
         dense separator="horizontal"
-        :dark="LAYOUT.isDark">
+        >
         <thead>
           <q-tr class="text-uppercase" style="line-height:30px">
             <q-th key="prefix" width="50px"></q-th>
@@ -149,7 +143,6 @@
                 v-model="row.quantity"
                 outlined dense color="blue-grey-5"
                 hide-bottom-space no-error-icon
-                :dark="LAYOUT.isDark"
                 v-validate="`required`"
                 :error="errors.has(`delivery_order_items.${index}.quantity`)"
               />
@@ -162,7 +155,6 @@
                 hide-bottom-space no-error-icon
                 map-options emit-value
                 :options="ItemUnitOptions[index]"
-                :dark="LAYOUT.isDark" :options-dark="LAYOUT.isDark"
                 v-validate="row.item_id ? 'required' : ''"
                 :error="errors.has(`delivery_order_items.${index}.unit_id`)"
                 @input="(val)=>{ setUnitReference(index, val) }"
@@ -180,21 +172,21 @@
                 name="description"
                 :data-vv-as="$tc('label.description')"
                 :label="$tc('label.description')" stack-label
-                filled :dark="LAYOUT.isDark"
+                filled
                 v-model="rsForm.description"/>
             </q-td>
           </q-tr>
         </tbody>
       </q-markup-table>
     </q-card-section>
-    <q-separator :dark="LAYOUT.isDark" />
+    <q-separator  />
     <q-card-actions class="q-mx-lg">
       <q-btn :label="$tc('form.cancel')" icon="cancel" color="dark" @click="FORM.toBack()"></q-btn>
       <q-btn :label="$tc('form.reset')" icon="refresh" color="light" @click="setForm(FORM.data)"></q-btn>
       <q-btn :label="$tc('form.save')" icon="save" color="positive" @click="onSave()" v-if="IS_REVISE"></q-btn>
     </q-card-actions>
   </q-card>
-  <q-inner-loading :showing="FORM.loading" :dark="LAYOUT.isDark">
+  <q-inner-loading :showing="FORM.loading" >
     <q-spinner-dots size="70px" color="primary" />
   </q-inner-loading>
 </q-page>

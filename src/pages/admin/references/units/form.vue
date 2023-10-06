@@ -1,6 +1,6 @@
 <template>
 <q-page padding class="form-page row justify-center">
-  <q-card  v-if="FORM.show" class="main-box self-start" :dark="LAYOUT.isDark">
+  <q-card  v-if="FORM.show" class="main-box self-start" >
     <q-card-section>
       <form-header :title="FORM.title()" :subtitle="FORM.subtitle()" >
         <template slot="menu-item">
@@ -15,7 +15,6 @@
           :label="$tc('label.code')"
           v-model="rsForm.code"
           v-validate="'required'"
-          :dark="LAYOUT.isDark"
           :error="errors.has('code')"
           :error-message="errors.first('code')" />
         <q-input
@@ -23,7 +22,6 @@
           :label="$tc('label.name')"
           v-model="rsForm.name"
           v-validate="'required'"
-          :dark="LAYOUT.isDark"
           :error="errors.has('name')"
           :error-message="errors.first('name')" />
         <q-input type="number" input-style="text-align:left"
@@ -31,19 +29,18 @@
           :label="$tc('label.quantity', 1, {v: 'decimal'})"
           v-model="rsForm.decimal_in"
           v-validate="'required|gt_value:-1|max_value:6'"
-          :dark="LAYOUT.isDark"
           :error="errors.has('decimal_in')"
           :error-message="errors.first('decimal_in')" />
       </form>
     </q-card-section>
-    <q-separator :dark="LAYOUT.isDark" />
+    <q-separator  />
     <q-card-actions class="group">
       <q-btn :label="$tc('form.cancel')" icon="cancel" color="dark" @click="FORM.toBack()"></q-btn>
       <q-btn :label="$tc('form.reset')" icon="refresh" color="light" @click="FORM.reset()"></q-btn>
       <q-btn :label="$tc('form.save')" icon="save" color="positive" @click="onSave()"></q-btn>
     </q-card-actions>
   </q-card>
-  <q-inner-loading :showing="FORM.loading" :dark="LAYOUT.isDark"><q-spinner-dots size="70px" color="primary" /></q-inner-loading>
+  <q-inner-loading :showing="FORM.loading" ><q-spinner-dots size="70px" color="primary" /></q-inner-loading>
 </q-page>
 </template>
 

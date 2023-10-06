@@ -1,6 +1,6 @@
 <template>
 <q-page padding class="form-page row justify-center">
-  <q-card v-if="FORM.show" class="main-box self-start" :dark="LAYOUT.isDark">
+  <q-card v-if="FORM.show" class="main-box self-start" >
     <q-card-section>
      <form-header :title="FORM.title()" :subtitle="FORM.subtitle()" >
         <template slot="menu-item">
@@ -15,7 +15,7 @@
           :label="$tc('label.name')"
           v-model="rsForm.name"
           v-validate="'required'"
-          :dark="LAYOUT.isDark"
+
           :error="errors.has('name')"
           :error-message="errors.first('name')" />
 
@@ -28,7 +28,7 @@
           filter source="/api/v1/references/type-faults?mode=all&--limit=50"
           @input="(x) => rsForm.type_fault_id = x.id"
           v-validate="'required'"
-          :dark="LAYOUT.isDark"
+
           :error="errors.has('type_fault')"
           :error-message="errors.first('type_fault')" />
 
@@ -36,17 +36,17 @@
           :label="$tc('label.description')"  stack-label
           type="textarea"  rows="3"
           v-model="rsForm.description"
-          :dark="LAYOUT.isDark" />
+           />
       </form>
     </q-card-section>
-    <q-separator :dark="LAYOUT.isDark" />
+    <q-separator  />
     <q-card-actions class="group">
       <q-btn :label="$tc('form.cancel')" icon="cancel" color="dark" @click="FORM.toBack()"></q-btn>
       <q-btn :label="$tc('form.reset')" icon="refresh" color="light" @click="FORM.reset()"></q-btn>
       <q-btn :label="$tc('form.save')" icon="save" color="positive" @click="onSave()"></q-btn>
     </q-card-actions>
   </q-card>
-  <q-inner-loading :showing="FORM.loading" :dark="LAYOUT.isDark"><q-spinner-dots size="70px" color="primary" /></q-inner-loading>
+  <q-inner-loading :showing="FORM.loading" ><q-spinner-dots size="70px" color="primary" /></q-inner-loading>
 </q-page>
 </template>
 

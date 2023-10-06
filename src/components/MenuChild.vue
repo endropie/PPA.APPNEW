@@ -30,7 +30,6 @@ export default {
   created() {
     if (this.show) {
       this.$parent.$vnode.context.$vnode.context.hasChildShow = true
-    //   console.warn(this.node.name, this.$parent.$vnode.context.$vnode.context.childrens)
     }
   },
   computed: {

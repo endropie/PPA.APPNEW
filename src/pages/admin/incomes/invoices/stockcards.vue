@@ -20,7 +20,7 @@
               </div>
             </div>
             <div class="column items-start q-gutter-sm">
-              <q-markup-table dense square bordered class="super-dense no-shadow " separator="cell" :dark="LAYOUT.isDark">
+              <q-markup-table dense square bordered class="super-dense no-shadow " separator="cell" >
                 <tbody v-if="rsView.request_order">
                   <tr><td>{{$tc('label.no', 1, {v:'SO'})}}</td><td>{{rsView.request_order.fullnumber || rsView.request_order.number}}</td></tr>
                   <tr><td>{{$tc('label.date')}}</td><td>{{ $app.date_format(rsView.request_order.date) }}</td></tr>

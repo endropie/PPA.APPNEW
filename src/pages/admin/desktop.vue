@@ -14,7 +14,7 @@
           <div class="card text-center menu-link text-primary" @click="show(page)">
             <!-- {{page}} -->
             <q-icon :name="page.icon ? page.icon : `star`" />
-            <p class="caption" :class="{'text-blue-grey-4 text-bold': LAYOUT.isDark}">{{ page.name }}</p>
+            <p class="caption" :class="{'text-blue-grey-4 text-bold': $q.dark.isActive}">{{ page.name }}</p>
           </div>
         </div>
         </template>
