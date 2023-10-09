@@ -153,7 +153,23 @@
             </q-td>
             <q-td key="quantity" width="25%">
               <q-input
-                v-if="rsForm.request_order && rsForm.request_order.order_mode == 'ACCUMULATE'"
+                v-if="rsForm.revise_nc"
+                type="number" style="min-width:120px"
+                :name="`delivery_order_items.${index}.quantity`"
+                v-model="row.quantity"
+                @input="(v) => row.quantity_nc = getDividenItem(index)"
+                outlined dense color="blue-grey-5"
+                hide-bottom-space no-error-icon
+                v-validate="`required|gt_value:0|max_value:${Number(MaxNCMount[index]) / Number(row.unit_rate || 1)}`"
+                :error="errors.has(`delivery_order_items.${index}.quantity`)"
+                :error-message="errors.first(`delivery_order_items.${index}.quantity`)"
+              >
+                <span slot="append" class="text-body2">
+                / <q-badge :label="`NCR: ${row.quantity_nc}`" />
+                </span>
+              </q-input>
+              <q-input
+                v-else-if="rsForm.request_order && rsForm.request_order.order_mode == 'ACCUMULATE'"
                 type="number" style="min-width:120px"
                 :name="`delivery_order_items.${index}.quantity`"
                 v-model="row.quantity"
@@ -211,170 +227,187 @@
       </q-markup-table>
     </q-card-section>
     <!-- MULTI-REVISION -->
-    <q-card-section v-else v-for="(partition, partitionIndex) in rsPartitions" :key="partitionIndex">
-      <div class="row  items-center q-pb-sm">
-        <span class="text-h6 text-grey text-no-wrap" >
-          <q-btn flat dense color="blue-grey" icon="delete" @click="removePartition(partitionIndex)" />
-          MULTI-REVISION
-          <font v-show="Boolean(rsPartitions.length > 1)">{{partitionIndex+1}}</font>
-        </span>
-        <q-space/>
+    <template v-else>
+      <q-card-section v-for="(partition, partitionIndex) in rsPartitions" :key="partitionIndex">
+        <div class="row  items-center q-pb-sm">
+          <span class="text-h6 text-grey text-no-wrap" >
+            <q-btn flat dense color="blue-grey" icon="delete" @click="removePartition(partitionIndex)" />
+            MULTI-REVISION
+            <font v-show="Boolean(rsPartitions.length > 1)">{{partitionIndex+1}}</font>
+          </span>
+          <q-space/>
 
-        <q-select dense filled hide-bottom-space no-error-icon
-          :name="`partitions.${partitionIndex}.transaction`"
-          data-vv-as="Transaction"
-          class="q-mr-sm"
-          v-model="partition.transaction"
-          :options="['RETURN', 'REGULER']"
-          v-validate="`required|is:${partition.request_order ? partition.request_order.transaction : ''}`"
-          :error="errors.has(`partitions.${partitionIndex}.transaction`)"
-          :error-message="errors.first(`partitions.${partitionIndex}.transaction`)"
-        />
-        <ux-select filled dense hide-bottom-space
-          class="col-auto" style="min-width:200px"
-          stack-label :label="$tc('general.request_order')"
-          v-model="partition.request_order"
-          :disable="partition.delivery_order_items && Boolean(partition.delivery_order_items.length)"
-          filter clearable
-          :source="`/api/v1/incomes/request-orders?mode=all&status=OPEN&customer_id=${rsForm.customer_id}`"
-          :option-label="(item) => item.fullnumber || item.number"
-          :option-sublabel="(item) => item.reference_number ? `REF: ${item.reference_number}` : undefined"
-          :option-value="(item) => item"
-          :error="errors.has(`partitions.${partitionIndex}.request_order_id`)"
-          :error-message="errors.first(`partitions.${partitionIndex}.request_order_id`)"
-          @input="(v) => setRequestOrder(v, partitionIndex)"
-        >
-          <q-btn slot="after" dense flat icon="open_in_new" color="blue-grey"
-            v-if="Boolean(partition.request_order)"
-            v-show="!Boolean(partition.request_order && partition.request_order.order_mode == 'ACCUMULATE')"
-            @click="setDialogRequestOrder(partition.request_order, partitionIndex)"
+          <q-select dense filled hide-bottom-space no-error-icon
+            :name="`partitions.${partitionIndex}.transaction`"
+            data-vv-as="Transaction"
+            class="q-mr-sm"
+            v-model="partition.transaction"
+            :options="['RETURN', 'REGULER']"
+            v-validate="`required|is:${partition.request_order ? partition.request_order.transaction : ''}`"
+            :error="errors.has(`partitions.${partitionIndex}.transaction`)"
+            :error-message="errors.first(`partitions.${partitionIndex}.transaction`)"
           />
-        </ux-select>
-        <q-input
-          class="hidden"
-          label="request_order_id"
-          :name="`partitions.${partitionIndex}.request_order_id`"
-          :data-vv-as="$tc('general.request_order')"
-          v-model="partition.request_order_id"
-          v-validate="`required|excluded:${rsPartitions.filter((x,i) => (i!==partitionIndex)).map(x => x.request_order_id)}`"
-        />
-      </div>
-      <!-- COLUMN:: Part items lists -->
-      <q-markup-table bordered class="main-box no-shadow no-highlight"
-        dense separator="horizontal"
-      >
-        <thead>
-          <q-tr class="text-uppercase" style="line-height:30px">
-            <q-th key="prefix" width="50px"></q-th>
-            <q-th key="part" width="50%">{{$tc('items.part_name')}}</q-th>
-            <q-th key="quantity" width="30%">{{$tc('label.quantity')}}</q-th>
-            <q-th key="unit_id" width="20%">{{$tc('label.unit')}}</q-th>
-          </q-tr>
-        </thead>
-        <tbody>
-          <q-tr v-if="!partition.delivery_order_items.length">
-            <q-td colspan="100%" class="justify-center">
-              <q-input  class="hidden"
-                :name="`partitions.${partitionIndex}.delivery_order_items.length`"
-                :value="partition.delivery_order_items.length"
-                v-validate="`gt_value:0`"
-              />
-              <div class="q-pa-sm text-center text-subtitle1 text-negative"
-               v-if="errors.has(`partitions.${partitionIndex}.delivery_order_items.length`)">
-                <q-icon name="error" size="sm" color="negative" />
-                {{$tc('messages.no_details')}}
-              </div>
-            </q-td>
-          </q-tr>
-          <q-tr v-for="(row, index) in partition.delivery_order_items" :key="index">
-            <q-td key="prefix" style="width:50px">
-              <q-btn dense flat round icon="clear" color="red" tabindex="100" @click="removeDetail(index, partitionIndex)"/>
-            </q-td>
-            <q-td key="part" width="30%">
-              <ux-select v-if="partition.request_order && partition.request_order.order_mode == 'ACCUMULATE'"
-                class="native-top"
-                :name="`partitions.${partitionIndex}.delivery_order_items.${index}.item_id`"
-                dense outlined hide-bottom-space
-                color="blue-grey"
-                v-model="row.item_id"
-                filter map-options emit-value
-                :options="ItemOptions"
-                :loading="SHEET['items'].loading"
-                v-validate="`required`"
-                :error="errors.has(`partitions.${partitionIndex}.delivery_order_items.${index}.item_id`)"
-                @input="(val) => setItemReference(index, val, partitionIndex)"
-              >
-                <small v-if="row.item_id && row.item && row.item.part_subname" class="absolute-bottom">
-                  [{{row.item.customer_code}}] {{row.item.part_subname}}
-                </small>
-              </ux-select>
-              <q-field v-else filled dense color="blue-grey">
-                <div class="column" v-if="row.item">
-                  <span class="text-subtitle2"> {{row.item.part_name}} </span>
-                  <span class="text-caption"> No. {{row.item.part_subname}} ({{row.request_order_item_id}})</span>
+          <ux-select filled dense hide-bottom-space
+            class="col-auto" style="min-width:200px"
+            stack-label :label="$tc('general.request_order')"
+            v-model="partition.request_order"
+            :disable="partition.delivery_order_items && Boolean(partition.delivery_order_items.length)"
+            filter clearable
+            :source="`/api/v1/incomes/request-orders?mode=all&status=OPEN&customer_id=${rsForm.customer_id}`"
+            :option-label="(item) => item.fullnumber || item.number"
+            :option-sublabel="(item) => item.reference_number ? `REF: ${item.reference_number}` : undefined"
+            :option-value="(item) => item"
+            :error="errors.has(`partitions.${partitionIndex}.request_order_id`)"
+            :error-message="errors.first(`partitions.${partitionIndex}.request_order_id`)"
+            @input="(v) => setRequestOrder(v, partitionIndex)"
+          >
+            <q-btn slot="after" dense flat icon="open_in_new" color="blue-grey"
+              v-if="Boolean(partition.request_order)"
+              v-show="!Boolean(partition.request_order && partition.request_order.order_mode == 'ACCUMULATE')"
+              @click="setDialogRequestOrder(partition.request_order, partitionIndex)"
+            />
+          </ux-select>
+          <q-input
+            class="hidden"
+            label="request_order_id"
+            :name="`partitions.${partitionIndex}.request_order_id`"
+            :data-vv-as="$tc('general.request_order')"
+            v-model="partition.request_order_id"
+            v-validate="`required|excluded:${rsPartitions.filter((x,i) => (i!==partitionIndex)).map(x => x.request_order_id)}`"
+          />
+        </div>
+        <!-- COLUMN:: Part items lists -->
+        <q-markup-table bordered class="main-box no-shadow no-highlight"
+          dense separator="horizontal"
+        >
+          <thead>
+            <q-tr class="text-uppercase" style="line-height:30px">
+              <q-th key="prefix" width="50px"></q-th>
+              <q-th key="part" width="50%">{{$tc('items.part_name')}}</q-th>
+              <q-th key="quantity" width="30%">{{$tc('label.quantity')}}</q-th>
+              <q-th key="unit_id" width="20%">{{$tc('label.unit')}}</q-th>
+            </q-tr>
+          </thead>
+          <tbody>
+            <q-tr v-if="!partition.delivery_order_items.length">
+              <q-td colspan="100%" class="justify-center">
+                <q-input  class="hidden"
+                  :name="`partitions.${partitionIndex}.delivery_order_items.length`"
+                  :value="partition.delivery_order_items.length"
+                  v-validate="`gt_value:0`"
+                />
+                <div class="q-pa-sm text-center text-subtitle1 text-negative"
+                 v-if="errors.has(`partitions.${partitionIndex}.delivery_order_items.length`)">
+                  <q-icon name="error" size="sm" color="negative" />
+                  {{$tc('messages.no_details')}}
                 </div>
-              </q-field>
-            </q-td>
-            <q-td key="quantity" width="25%">
-              <q-input v-if="rsForm.request_order && rsForm.request_order.order_mode == 'ACCUMULATE'"
-                type="number" style="min-width:120px"
-                :name="`partitions.${partitionIndex}.delivery_order_items.${index}.quantity`"
-                v-model="row.quantity"
-                outlined dense color="blue-grey-5"
-                hide-bottom-space no-error-icon
-                v-validate="`required|gt_value:0`"
-                :error="errors.has(`partitions.${partitionIndex}.delivery_order_items.${index}.quantity`)"
-                :error-message="errors.first(`partitions.${partitionIndex}.delivery_order_items.${index}.quantity`)"
-              />
-              <q-input v-else
-                type="number" style="min-width:120px"
-                :name="`partitions.${partitionIndex}.delivery_order_items.${index}.quantity`"
-                v-model="row.quantity"
-                outlined dense color="blue-grey-5"
-                hide-bottom-space no-error-icon
-                v-validate="`required|gt_value:0|max_value:${Number(MaxMultiMount[partitionIndex][index]) / Number(row.unit_rate || 1)}`"
-                :error="errors.has(`partitions.${partitionIndex}.delivery_order_items.${index}.quantity`)"
-                :error-message="errors.first(`partitions.${partitionIndex}.delivery_order_items.${index}.quantity`)"
-              >
-                <span slot="append" class="text-body2">
-                / <q-badge :label="$app.number_format(Number(MaxMultiMount[partitionIndex][index]) / Number(row.unit_rate || 1), row.unit.decimal_in)" />
-                </span>
-              </q-input>
-            </q-td>
-            <q-td key="unit_id" width="20%" >
-              <q-select style="min-width:100px"
-                :name="`partitions.${partitionIndex}.delivery_order_items.${index}.unit_id`"
-                v-model="row.unit_id"
-                outlined dense color="blue-grey-5"
-                hide-bottom-space no-error-icon
-                map-options emit-value
-                :options="ItemUnitMultiOptions[partitionIndex][index]"
-                v-validate="'required'"
-                :error="errors.has(`partitions.${partitionIndex}.delivery_order_items.${index}.unit_id`)"
-                @input="(val)=>{ setUnitReference(index, val, partitionIndex) }"
-              />
-            </q-td>
-          </q-tr>
-          <q-tr v-if="partition.request_order && partition.request_order.order_mode == 'ACCUMULATE'">
-            <td colspan="100%">
-              <q-btn color="primary" icon="add_circle" :label="$tc('form.add')"  @click="addNewDetail(undefined, partitionIndex)" />
-            </td>
-          </q-tr>
-          <q-tr>
-            <q-td colspan="100%">
-              <q-input type="textarea" autogrow class="q-mt-sm"
-                :name="`partitions.${partitionIndex}.description`"
-                :data-vv-as="$tc('label.description')"
-                :label="$tc('label.description')" stack-label
-                v-model="partition.description"/>
-            </q-td>
-          </q-tr>
-        </tbody>
-      </q-markup-table>
-    </q-card-section>
-    <q-separator />
+              </q-td>
+            </q-tr>
+            <q-tr v-for="(row, index) in partition.delivery_order_items" :key="index">
+              <q-td key="prefix" style="width:50px">
+                <q-btn dense flat round icon="clear" color="red" tabindex="100" @click="removeDetail(index, partitionIndex)"/>
+              </q-td>
+              <q-td key="part" width="30%">
+                <ux-select v-if="partition.request_order && partition.request_order.order_mode == 'ACCUMULATE'"
+                  class="native-top"
+                  :name="`partitions.${partitionIndex}.delivery_order_items.${index}.item_id`"
+                  dense outlined hide-bottom-space
+                  color="blue-grey"
+                  v-model="row.item_id"
+                  filter map-options emit-value
+                  :options="ItemOptions"
+                  :loading="SHEET['items'].loading"
+                  v-validate="`required`"
+                  :error="errors.has(`partitions.${partitionIndex}.delivery_order_items.${index}.item_id`)"
+                  @input="(val) => setItemReference(index, val, partitionIndex)"
+                >
+                  <small v-if="row.item_id && row.item && row.item.part_subname" class="absolute-bottom">
+                    [{{row.item.customer_code}}] {{row.item.part_subname}}
+                  </small>
+                </ux-select>
+                <q-field v-else filled dense color="blue-grey">
+                  <div class="column" v-if="row.item">
+                    <span class="text-subtitle2"> {{row.item.part_name}} </span>
+                    <span class="text-caption"> No. {{row.item.part_subname}} ({{row.request_order_item_id}})</span>
+                  </div>
+                </q-field>
+              </q-td>
+              <q-td key="quantity" width="25%">
+                <q-input v-if="rsForm.request_order && rsForm.request_order.order_mode == 'ACCUMULATE'"
+                  type="number" style="min-width:120px"
+                  :name="`partitions.${partitionIndex}.delivery_order_items.${index}.quantity`"
+                  v-model="row.quantity"
+                  outlined dense color="blue-grey-5"
+                  hide-bottom-space no-error-icon
+                  v-validate="`required|gt_value:0`"
+                  :error="errors.has(`partitions.${partitionIndex}.delivery_order_items.${index}.quantity`)"
+                  :error-message="errors.first(`partitions.${partitionIndex}.delivery_order_items.${index}.quantity`)"
+                />
+                <q-input v-else
+                  type="number" style="min-width:120px"
+                  :name="`partitions.${partitionIndex}.delivery_order_items.${index}.quantity`"
+                  v-model="row.quantity"
+                  outlined dense color="blue-grey-5"
+                  hide-bottom-space no-error-icon
+                  v-validate="`required|gt_value:0|max_value:${Number(MaxMultiMount[partitionIndex][index]) / Number(row.unit_rate || 1)}`"
+                  :error="errors.has(`partitions.${partitionIndex}.delivery_order_items.${index}.quantity`)"
+                  :error-message="errors.first(`partitions.${partitionIndex}.delivery_order_items.${index}.quantity`)"
+                >
+                  <span slot="append" class="text-body2">
+                  / <q-badge :label="$app.number_format(Number(MaxMultiMount[partitionIndex][index]) / Number(row.unit_rate || 1), row.unit.decimal_in)" />
+                  </span>
+                </q-input>
+              </q-td>
+              <q-td key="unit_id" width="20%" >
+                <q-select style="min-width:100px"
+                  :name="`partitions.${partitionIndex}.delivery_order_items.${index}.unit_id`"
+                  v-model="row.unit_id"
+                  outlined dense color="blue-grey-5"
+                  hide-bottom-space no-error-icon
+                  map-options emit-value
+                  :options="ItemUnitMultiOptions[partitionIndex][index]"
+                  v-validate="'required'"
+                  :error="errors.has(`partitions.${partitionIndex}.delivery_order_items.${index}.unit_id`)"
+                  @input="(val)=>{ setUnitReference(index, val, partitionIndex) }"
+                />
+              </q-td>
+            </q-tr>
+            <q-tr v-if="partition.request_order && partition.request_order.order_mode == 'ACCUMULATE'">
+              <td colspan="100%">
+                <q-btn color="primary" icon="add_circle" :label="$tc('form.add')"  @click="addNewDetail(undefined, partitionIndex)" />
+              </td>
+            </q-tr>
+            <q-tr>
+              <q-td colspan="100%">
+                <q-input type="textarea" autogrow class="q-mt-sm"
+                  :name="`partitions.${partitionIndex}.description`"
+                  :data-vv-as="$tc('label.description')"
+                  :label="$tc('label.description')" stack-label
+                  v-model="partition.description"/>
+              </q-td>
+            </q-tr>
+          </tbody>
+        </q-markup-table>
+      </q-card-section>
+      <q-separator />
+    </template>
     <q-card-actions class="q-mx-lg">
-      <q-checkbox class="on-left" v-model="isPartition" label="MULTI-REVISION" color="positive" @input="setPartition"/>
+      <q-checkbox
+        class="on-left"
+        :disable="isPartition"
+        v-model="rsForm.revise_nc"
+        label="NC-REVISION"
+        color="positive"
+        @input="setPartition"
+      />
+      <q-checkbox
+        :disable="rsForm.revise_nc"
+        v-model="isPartition"
+        label="MULTI-REVISION"
+        color="positive"
+        @input="setPartition"
+      />
+
       <q-btn outline color="positive" icon="add_circle" :label="$tc('form.add')" @click="addPartition" v-if="isPartition" />
       <q-space/>
       <q-btn :label="$tc('form.cancel')" icon="cancel" color="dark" @click="FORM.toBack()"></q-btn>
@@ -611,6 +644,13 @@ export default {
         return Number(detail.request_order_item.unit_amount) - Number(detail.request_order_item.amount_delivery) + Number(oldAmount)
       })
     },
+    MaxNCMount () {
+      return this.rsForm.delivery_order_items.map((detail, index) => {
+        console.log("OKOK", this.FORM.data)
+        const oldRow = this.FORM.data?.delivery_order_items[index] || null;
+        return Number(oldRow?.unit_amount || 0) + Number(oldRow?.quantity_nc * oldRow.unit_rate)
+      })
+    },
     MaxMultiMount () {
       return this.rsPartitions.map(rs => {
         return (rs.delivery_order_items.map(detail => {
@@ -644,6 +684,12 @@ export default {
       this.FORM.load((data) => {
         this.setForm(data || this.setDefault())
       })
+    },
+    getDividenItem(index) {
+      return Number(this.FORM.data.delivery_order_items[index]?.quantity || 0)
+          + Number(this.FORM.data.delivery_order_items[index]?.quantity_nc || 0)
+          - Number(this.rsForm.delivery_order_items[index]?.quantity || 0)
+
     },
     setDialogRequestOrder (val, partitionIndex) {
       this.$q.loading.show()
@@ -794,7 +840,7 @@ export default {
     },
     onSubmit () {
       const submit = () => {
-        this.FORM.loading = true
+        this.$q.loading.show()
         const method = 'PUT'
         const mode = this.isPartition ? 'multi-revision' : 'revision'
         let data = this.isPartition
@@ -813,7 +859,7 @@ export default {
             this.FORM.response.error(error.response || error, 'REVISION FAILED')
           })
           .finally(() => {
-            this.FORM.loading = false
+            this.$q.loading.hide()
           })
       }
 
