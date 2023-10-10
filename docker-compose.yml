@@ -1,0 +1,21 @@
+# for local development
+version: '3.7'
+name: ppa
+services:
+  quasarnew:
+    container_name: 'ppa.quasarnew'
+    build:
+      context: .
+      dockerfile: ./.docker/Dockerfile
+      target: 'production-stage'
+    # restart: always
+    environment:
+      - HOST=0.0.0.0
+      - CHOKIDAR_USEPOLLING=true
+    ports:
+      - '9000:8080'
+      - '80:80'
+    volumes:
+      - '.:/app'
+    # command: "npx quasar dev --port=8080"
+
