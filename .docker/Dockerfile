@@ -1,7 +1,7 @@
 # develop stage
 FROM node:18-alpine as develop-stage
 WORKDIR /app
-# COPY package*.json ./
+COPY package*.json ./
 COPY . .
 RUN npm install -g @quasar/cli
 RUN npm install

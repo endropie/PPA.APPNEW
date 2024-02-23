@@ -2,8 +2,8 @@
 version: '3.7'
 name: ppa
 services:
-  quasarnew:
-    container_name: 'ppa.quasarnew'
+  appnew:
+    container_name: 'ppa.appnew'
     build:
       context: .
       dockerfile: ./.docker/Dockerfile
