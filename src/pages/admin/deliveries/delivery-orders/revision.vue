@@ -79,7 +79,7 @@
           v-model="rsForm.request_order"
           :disable="rsForm.delivery_order_items && Boolean(rsForm.delivery_order_items.length)"
           filter clearable
-          :source="`/api/v1/incomes/request-orders?mode=all&status=OPEN&actived=true&&customer_id=${rsForm.customer_id}`"
+          :source="`/api/v1/incomes/request-orders?mode=all&status=OPEN&actived=${rsForm.date || 'now'}&&customer_id=${rsForm.customer_id}`"
           :option-label="(item) => item.number"
           :option-sublabel="(item) => 'REF: ' + (item.reference_number || '-')"
           :option-value="(item) => item"
