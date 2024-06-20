@@ -79,6 +79,7 @@ export default {
   inheritAttrs: false,
   props: {
     source: { type: String, default: null },
+    sourceParams: { type: Object },
     sourceKeys: { type: Array, default: () => [] },
     filter: { type: Boolean, default: false },
     filterMin: { default: 0 },
@@ -194,8 +195,9 @@ export default {
         const search = fields
           ? `search=${val}&search-keys=${fields.join(',')}`
           : `search=${val}`
+        const params = this.sourceParams || {}
         const apiUrl = this.source + separator + search
-        return this.$axios.get(apiUrl)
+        return this.$axios.get(apiUrl, { params })
           .then(response => {
             this.options = response.data
           })

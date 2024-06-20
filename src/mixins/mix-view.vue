@@ -24,7 +24,13 @@ export default {
         print: () => window.print(),
         options: {},
         has_relationship: [],
-        getApiUrl: () => this.VIEW.resource.api + '/' + this.ROUTE.params.id + this.VIEW.resource.params,
+        getApiUrl: () => this.VIEW.resource.api + '/' + this.ROUTE.params.id,
+        getApiParams: () => {
+          if (typeof this.VIEW.resource.params === 'object') return this.VIEW.resource.params
+          if (typeof this.VIEW.resource.params === 'string') {
+            return new URLSearchParams(this.VIEW.resource.params)
+          }
+        },
         resource: {
           api: null,
           uri: null,
@@ -32,6 +38,9 @@ export default {
         }
       }
     }
+  },
+  mounted () {
+    // console.info('[PLAY] MIX-VIEW is Mounted!')
   },
   computed: {
     ROUTE () {
@@ -47,15 +56,17 @@ export default {
   },
   methods: {
     VIEW__load (callback) {
-      if (typeof callback !== 'function') console.error('[PLAY] - callback is function required')
+      if (typeof callback !== 'function') console.warn('*[PLAY]* - callback is function required')
       this.VIEW.show = false
       this.VIEW.loading = true
 
       const callBase = () => {
-        const api = this.VIEW.getApiUrl()
-        if (process.env.DEV) console.info('[PLAY]', 'VIEW LOAD', api)
-        this.$axios.get(api)
+        const url = this.VIEW.getApiUrl()
+        const params = this.VIEW.getApiParams()
+
+        this.$axios.get(url, { params })
           .then((response) => {
+            if (process.env.DEV) console.info('[PLAY]', 'VIEW LOAD', url, response)
             this.VIEW.data = JSON.parse(JSON.stringify(response.data))
             if (typeof callback === 'function') {
               if (callback) callback(response.data)
@@ -64,16 +75,16 @@ export default {
           })
           .catch(error => {
             console.error(error.response || error)
-            if (!error.response) error.response = {}
-            this.$router.replace({
-              path: '/admin/error',
-              query: {
-                // api: apiUrl,
-                redirect: this.$route.fullPath,
-                code: error.response.status || null,
-                message: error.response.statusText || null
-              }
-            })
+            // if (!error.response) error.response = {}
+            // this.$router.replace({
+            //   path: '/admin/error',
+            //   query: {
+            //     // api: apiUrl,
+            //     redirect: this.$route.fullPath,
+            //     code: error.response.status || null,
+            //     message: error.response.statusText || null
+            //   }
+            // })
 
             if (callback) callback()
           })
@@ -130,6 +141,7 @@ export default {
       }).onOk(() => {
         this.$axios.delete(`${this.VIEW.resource.api}/${this.ROUTE.params.id}`)
           .then((response) => {
+            // console.warn(response)
             if (response.data.success) {
               this.$app.notify.success({
                 message: this.$tc('messages.success_deleted'),
