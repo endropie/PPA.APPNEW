@@ -127,9 +127,9 @@ module.exports = function (/* ctx */) {
       workboxPluginMode: 'GenerateSW', // 'GenerateSW' or 'InjectManifest'
       workboxOptions: {}, // only for GenerateSW
       manifest: {
-        name: `Quasar App`,
-        short_name: `Quasar App`,
-        description: `A Quasar Project`,
+        name: `MANUPLAY SYSTEM`,
+        short_name: `MANUPLAY SYSTEM`,
+        description: `Manufacture system application of PT. PPA`,
         display: 'standalone',
         orientation: 'portrait',
         background_color: '#ffffff',
