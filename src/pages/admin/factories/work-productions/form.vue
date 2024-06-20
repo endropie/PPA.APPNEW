@@ -19,7 +19,8 @@
               :options="LineOptions" clearable
               :error="errors.has('line_id')"
               :error-message="errors.first('line_id')"
-              @input="(val) => val ? loadItemOptions() : false" />
+              @input="(val) => val ? loadItemOptions() : false"
+            />
 
           </div>
         </div>
@@ -51,97 +52,95 @@
         </div>
         <div class="col-12">
           <div class="main-box">
-            <template v-for="(row, index) in rsForm.work_production_items" >
-              <div class="q-pa-xs col-12 col-sm-12" :key="index">
-                <q-card class="main-box">
-                  <q-card-section class="items-center row no-wrap q-py-xs">
-                      <div class="col">
-                        <div class="text-subtitle2">{{$tc('general.item')}}
-                          <q-badge :label="index+1" color="blue-grey" v-if="index>0" />
-                        </div>
+            <div v-for="(row, index) in rsForm.work_production_items" class="q-pa-xs col-12 col-sm-12" :key="index">
+              <q-card class="main-box">
+                <q-card-section class="items-center row no-wrap q-py-xs">
+                    <div class="col">
+                      <div class="text-subtitle2">{{$tc('general.item')}}
+                        <q-badge :label="index+1" color="blue-grey" v-if="index>0" />
                       </div>
-                      <div class="col-auto">
-                        <q-btn dense flat round color="negative" icon="clear" tabindex="100" @click="removeItem(index)"/>
-                      </div>
-                  </q-card-section>
-                  <q-card-section class="row q-col-gutter-sm">
+                    </div>
+                    <div class="col-auto">
+                      <q-btn dense flat round color="negative" icon="clear" tabindex="100" @click="removeItem(index)"/>
+                    </div>
+                </q-card-section>
+                <q-card-section class="row q-col-gutter-sm">
 
-                    <ux-select filter dense class="col-12 col-md-6" autofocus
-                      :name="`work_production_items.${index}.item_id`"
-                      :label="$tc('items.part_name')" stack-label
-                      outlined color="blue-grey-4"
-                      hide-bottom-space hide-dropdown-icon
-                      v-model="row.item"
-                      v-validate="'required'"
-                      :disable="!DetailRequired || Boolean(row.stockist)"
-                      :options="ItemOptions" clearable
-                      option-value="id"
-                      option-label="part_name"
-                      :option-sublabel="item => `[${item.customer_code}] ${item.part_subname}`"
-                      :option-disable="item => !Boolean(item.enable)"
-                      popup-content-class="options-striped"
-                      :error="errors.has(`work_production_items.${index}.item_id`)"
-                      :loading="SHEET['items'].loading || SHEET['work_order_items'].loading"
-                      @input="(val) => setItemReference(index, val)"
-                    />
+                  <ux-select filter dense class="col-12 col-md-6" autofocus
+                    :name="`work_production_items.${index}.item_id`"
+                    :label="$tc('items.part_name')" stack-label
+                    outlined color="blue-grey-4"
+                    hide-bottom-space hide-dropdown-icon
+                    v-model="row.item"
+                    v-validate="'required'"
+                    :disable="!DetailRequired || Boolean(row.stockist)"
+                    :options="ItemOptions" clearable
+                    option-value="id"
+                    option-label="part_name"
+                    :option-sublabel="item => `[${item.customer_code}] ${item.part_subname}`"
+                    :option-disable="item => !Boolean(item.enable)"
+                    popup-content-class="options-striped"
+                    :error="errors.has(`work_production_items.${index}.item_id`)"
+                    :loading="SHEET['items'].loading || SHEET['work_order_items'].loading"
+                    @input="(val) => setItemReference(index, val)"
+                  />
 
-                    <ux-select-filter dense class="col-12 col-md-6"
-                      :name="`work_production_items.${index}.work_order_item_id`"
-                      :label="$tc('general.work_production')" stack-label
-                      v-model="row.work_order_item_id"
-                      v-validate="'required'"
-                      outlined color="blue-grey-4"
-                      no-error-icon hide-bottom-space hide-dropdown-icon
-                      :disable="!DetailRequired"
-                      :options="WorkOrderItemOptions.filter(x => x.item_id === row.item_id && x.stockist === row.stockist)" clearable
-                      :error="errors.has(`work_production_items.${index}.work_order_item_id`)"
-                      :loading="SHEET['work_order_items'].loading">
-                        <q-select slot="before" class="no-padding" style="min-width:120px"
-                          :name="`work_production_items.${index}.stockist`"
-                          :label="$tc('items.stockist').toUpperCase()" hide-dropdown-icon
-                          use-chips outlined no-error-icon
-                          v-model="row.stockist" emit-value map-options
-                          v-validate="'required'"
-                          :options="StockistOptions"
-                          :error="errors.has(`work_production_items.${index}.stockist`)"
-                          @input="row.work_order_item_id = null"/>
-                    </ux-select-filter>
+                  <ux-select-filter dense class="col-12 col-md-6"
+                    :name="`work_production_items.${index}.work_order_item_id`"
+                    :label="$tc('general.work_production')" stack-label
+                    v-model="row.work_order_item_id"
+                    v-validate="'required'"
+                    outlined color="blue-grey-4"
+                    no-error-icon hide-bottom-space hide-dropdown-icon
+                    :disable="!DetailRequired"
+                    :options="WorkOrderItemOptions.filter(x => x.item_id === row.item_id && x.stockist === row.stockist)" clearable
+                    :error="errors.has(`work_production_items.${index}.work_order_item_id`)"
+                    :loading="SHEET['work_order_items'].loading">
+                      <q-select slot="before" class="no-padding" style="min-width:120px"
+                        :name="`work_production_items.${index}.stockist`"
+                        :label="$tc('items.stockist').toUpperCase()" hide-dropdown-icon
+                        use-chips outlined no-error-icon
+                        v-model="row.stockist" emit-value map-options
+                        v-validate="'required'"
+                        :options="StockistOptions"
+                        :error="errors.has(`work_production_items.${index}.stockist`)"
+                        @input="row.work_order_item_id = null"/>
+                  </ux-select-filter>
 
-                    <q-input dense readonly tabindex="100" class="col-12 col-md-6"
-                      :label="$app.setting('item.subname_label')" stack-label
-                      :value="row.item ? row.item.part_subname : null"
-                      outlined hide-bottom-space color="blue-grey-5"
-                    />
+                  <q-input dense readonly tabindex="100" class="col-12 col-md-6"
+                    :label="$app.setting('item.subname_label')" stack-label
+                    :value="row.item ? row.item.part_subname : null"
+                    outlined hide-bottom-space color="blue-grey-5"
+                  />
 
-                    <ux-numeric dense class="col-12 col-sm-8 col-md-4" style="min-width:120px"
-                      :options="{ decimalPlaces: row.unit ? row.unit.decimal_in : 0 }"
-                      :name="`work_production_items.${index}.quantity`"
-                      :label="$tc('label.quantity')" stack-label
-                      color="blue-grey-6"
-                      v-model="row.quantity" min="0"
-                      outlined hide-bottom-space no-error-icon align="right"
-                      v-validate="`required|gt_value:0|max_value:${$app.number_format(1000* MaxStock[index] / (row.unit_rate||1), ($app.get(row, 'unit.decimal_in') || 0), '.', '')}`"
-                      :error="errors.has(`work_production_items.${index}.quantity`)"
-                      :suffix=" ` / ${$app.number_format(MaxStock[index] / (row.unit_rate||1), ($app.get(row, 'unit.decimal_in') || 0))}`"
-                    />
+                  <ux-numeric dense class="col-12 col-sm-8 col-md-4" style="min-width:120px"
+                    :options="{ decimalPlaces: row.unit ? row.unit.decimal_in : 0 }"
+                    :name="`work_production_items.${index}.quantity`"
+                    :label="$tc('label.quantity')" stack-label
+                    color="blue-grey-6"
+                    v-model="row.quantity" min="0"
+                    outlined hide-bottom-space no-error-icon align="right"
+                    v-validate="`required|gt_value:0|max_value:${$app.number_format(1000* MaxStock[index] / (row.unit_rate||1), ($app.get(row, 'unit.decimal_in') || 0), '.', '')}`"
+                    :error="errors.has(`work_production_items.${index}.quantity`)"
+                    :suffix=" ` / ${$app.number_format(MaxStock[index] / (row.unit_rate||1), ($app.get(row, 'unit.decimal_in') || 0))}`"
+                  />
 
-                    <q-select dense class="col-12 col-sm-4 col-md-2"
-                      :name="`work_production_items.${index}.unit_id`"
-                      :label="$tc('label.unit')" stack-label
-                      v-model="row.unit"
-                      v-validate="row.item_id ? 'required' : ''"
-                      outlined hide-bottom-space color="blue-grey-4"
-                      :options="ItemUnitOptions[index]"
-                      option-value="id"
-                      option-label="code"
-                      :error="errors.has(`work_production_items.${index}.unit_id`)"
-                      :disable="!DetailRequired || !row.item_id"
-                      @input="(val) => setUnitReference(index, val)"
-                    />
-                  </q-card-section>
-                </q-card>
-              </div>
-            </template>
+                  <q-select dense class="col-12 col-sm-4 col-md-2"
+                    :name="`work_production_items.${index}.unit_id`"
+                    :label="$tc('label.unit')" stack-label
+                    v-model="row.unit"
+                    v-validate="row.item_id ? 'required' : ''"
+                    outlined hide-bottom-space color="blue-grey-4"
+                    :options="ItemUnitOptions[index]"
+                    option-value="id"
+                    option-label="code"
+                    :error="errors.has(`work_production_items.${index}.unit_id`)"
+                    :disable="!DetailRequired || !row.item_id"
+                    @input="(val) => setUnitReference(index, val)"
+                  />
+                </q-card-section>
+              </q-card>
+            </div>
           </div>
 
           <q-btn outline dense color="blue-grey" :label="$tc('form.add')" icon="add_circle_outline" class="q-mt-md full-width" @click="addNewItem()" />
@@ -195,7 +194,6 @@ export default {
         units: { api: '/api/v1/references/units?mode=all' },
         lines: { api: '/api/v1/references/lines?mode=all' },
         shifts: { api: '/api/v1/references/shifts?mode=all' },
-        items: { autoload: false, api: '/api/v1/common/items?mode=all' },
         work_order_items: { autoload: false, api: '/api/v1/factories/work-orders?mode=items&has_amount_production=true' }
       },
       FORM: {
@@ -267,7 +265,7 @@ export default {
         return true
       })
 
-      if (Item.length) this.SHEET.load('items', `or_ids=${Item.join(',')}`)
+      // if (Item.length) this.SHEET.load('items', `or_ids=${Item.join(',')}`)
 
       return data
         .map(detail => {
@@ -303,12 +301,12 @@ export default {
       return (this.SHEET.units.data || [])
     },
     ItemOptions () {
-      if (this.SHEET.items.data.length <= 0) return []
+      if (this.SHEET.work_order_items.length <= 0) return []
 
-      return this.SHEET.items.data.map(item => ({
-        ...item,
-        label: item.part_name,
-        sublabel: `[${item.customer_code}] ${item.part_subname}`
+      return this.SHEET.work_order_items.data.map(detail => ({
+        ...detail.item,
+        label: detail.item.part_name,
+        sublabel: `[${detail.item.customer_code}] ${detail.item.part_subname}`
       }))
     },
     ItemUnitOptions () {
@@ -414,13 +412,34 @@ export default {
         } else this.setForm(data || this.setDefault())
       })
     },
+    setItems () {
+      if (!this.rsForm.line_id) return []
+      if (!this.SHEET['work_order_items'].data.length) return []
+
+      const hasold = (id) => (this.FORM.data.work_production_items)
+        ? this.FORM.data.work_production_items.find(x => x.work_order_item_id === id) : null
+
+      let Item = []
+
+      this.SHEET['work_order_items'].data.filter(detail => {
+        if (this.rsForm.line_id !== detail.work_order.line_id) return false
+
+        if (hasold(detail.id)) {
+          const old = hasold(detail.id)
+          if (Number(detail.unit_amount) <= (Number(detail.amount_process) - Number(old.unit_amount))) return false
+        }
+
+        if (!Item.find(x => x === (detail.item_id || null))) Item.push(detail.item_id)
+        return true
+      })
+
+      if (Item.length) this.SHEET.load('items', `or_ids=${Item.join(',')}`)
+    },
     setForm (data) {
       this.rsForm = JSON.parse(JSON.stringify(data))
       if (data.id) this.loadItemOptions(data)
-      if (data.hasOwnProperty('has_relationship') && data['has_relationship'].length > 0) {
-        this.FORM.has_relationship = data.has_relationship
-
-        let message = data['has_relationship'].join('-')
+      if (data.is_relationship) {
+        let message = 'RELATION FAILED'
         this.$q.dialog({
           title: 'Work Order has Related',
           message: message,
@@ -452,10 +471,13 @@ export default {
         this.rsForm.work_production_items[index].unit_id = null
         this.rsForm.work_production_items[index].unit = null
       } else {
+        const unit = this.MAPINGKEY.units[val.unit_id]
         this.rsForm.work_production_items[index].item_id = val.id
         this.rsForm.work_production_items[index].unit_rate = 1
         this.rsForm.work_production_items[index].unit_id = val.unit_id
-        this.rsForm.work_production_items[index].unit = ({ ...val.unit, label: val.unit.code, value: val.unit.id, rate: 1 })
+        if (unit) {
+          this.rsForm.work_production_items[index].unit = ({ ...unit, label: unit.code, value: unit.id, rate: 1 })
+        }
       }
     },
     setUnitReference (index, val) {
