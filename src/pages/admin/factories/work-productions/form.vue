@@ -81,7 +81,7 @@
                     :option-disable="item => !Boolean(item.enable)"
                     popup-content-class="options-striped"
                     :error="errors.has(`work_production_items.${index}.item_id`)"
-                    :loading="SHEET['items'].loading || SHEET['work_order_items'].loading"
+                    :loading="SHEET['work_order_items'].loading || SHEET['work_order_items'].loading"
                     @input="(val) => setItemReference(index, val)"
                   />
 
@@ -378,7 +378,6 @@ export default {
 
       this.SHEET['customers'].data.map(value => { variables['customers'][value.id] = value })
       this.SHEET['units'].data.map(value => { variables['units'][value.id] = value })
-      this.SHEET['items'].data.map(value => { variables['items'][value.id] = value })
 
       return variables
     }
@@ -411,29 +410,6 @@ export default {
             })
         } else this.setForm(data || this.setDefault())
       })
-    },
-    setItems () {
-      if (!this.rsForm.line_id) return []
-      if (!this.SHEET['work_order_items'].data.length) return []
-
-      const hasold = (id) => (this.FORM.data.work_production_items)
-        ? this.FORM.data.work_production_items.find(x => x.work_order_item_id === id) : null
-
-      let Item = []
-
-      this.SHEET['work_order_items'].data.filter(detail => {
-        if (this.rsForm.line_id !== detail.work_order.line_id) return false
-
-        if (hasold(detail.id)) {
-          const old = hasold(detail.id)
-          if (Number(detail.unit_amount) <= (Number(detail.amount_process) - Number(old.unit_amount))) return false
-        }
-
-        if (!Item.find(x => x === (detail.item_id || null))) Item.push(detail.item_id)
-        return true
-      })
-
-      if (Item.length) this.SHEET.load('items', `or_ids=${Item.join(',')}`)
     },
     setForm (data) {
       this.rsForm = JSON.parse(JSON.stringify(data))
