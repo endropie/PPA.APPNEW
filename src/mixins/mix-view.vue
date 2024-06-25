@@ -139,9 +139,9 @@ export default {
         ok: this.$tc('messages.yes_to', 1, { v: this.$tc('form.delete') }),
         cancel: this.$tc('form.cancel')
       }).onOk(() => {
+        this.$q.loading.show()
         this.$axios.delete(`${this.VIEW.resource.api}/${this.ROUTE.params.id}`)
           .then((response) => {
-            // console.warn(response)
             if (response.data.success) {
               this.$app.notify.success({
                 message: this.$tc('messages.success_deleted'),
@@ -152,6 +152,9 @@ export default {
           })
           .catch(error => {
             this.$app.response.error(error.response, 'Deleting Invalid!')
+          })
+          .finally(() => {
+            this.$q.loading.hide()
           })
       })
     },

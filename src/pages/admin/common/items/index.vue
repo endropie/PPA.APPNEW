@@ -144,6 +144,21 @@
             :icon="rs.row.enable ? 'mdi-check-outline' : 'block'" />
           </div>
 
+          <div v-else-if="rs.col.name === 'FM'">
+            {{ Number(rs.row.totals['FM'] || 0) - Number(rs.row.totals['WO_FM'] || 0) }}
+            <span class="text-faded">({{ rs.row.totals['WO_FM'] || ' -- '}})</span>
+          </div>
+
+          <div v-else-if="rs.col.name === 'NC'">
+            {{ Number(rs.row.totals['NC'] || 0) - Number(rs.row.totals['WO_NC'] || 0) }}
+            <span class="text-faded">({{ rs.row.totals['WO_NC'] || ' -- '}})</span>
+          </div>
+
+          <div v-else-if="rs.col.name === 'NCR'">
+            {{ Number(rs.row.totals['NCR'] || 0) - Number(rs.row.totals['WO_NCR'] || 0) }}
+            <span class="text-faded">({{ rs.row.totals['WO_NCR'] || ' -- '}})</span>
+          </div>
+
           <div v-else>{{rs.value}}</div>
 
         </q-td>
@@ -190,7 +205,7 @@ export default {
       TABLE: {
         mode: 'index',
         resource: {
-          api: '/api/v1/common/items',
+          api: '/api/v1/common/items?apends[]=total_work_order',
           uri: '/admin/common/items'
         },
         columns: [
@@ -203,11 +218,11 @@ export default {
 
           // Item stocks
           { name: 'ALL', label: 'ALL', sortable: true, field: (item) => Number(item.totals['*']), format: (v) => v ? this.$app.number_format(v) : '-', style: 'text-weight-medium' },
-          { name: 'FM', label: 'FM', sortable: true, field: (item) => item.totals['FM'], format: (v) => v ? this.$app.number_format(v) : '-' },
+          { name: 'FM', label: 'FM (WO)', sortable: true, field: (item) => item.totals['FM'], format: (v) => v ? this.$app.number_format(v) : '-' },
           { name: 'WIP', label: 'WIP', sortable: true, field: (item) => item.totals['WIP'], format: (v) => v ? this.$app.number_format(v) : '-' },
           { name: 'FG', label: 'FG', sortable: true, field: (item) => item.totals['FG'], format: (v) => v ? this.$app.number_format(v) : '-' },
-          { name: 'NC', label: 'NC', sortable: true, field: (item) => item.totals['NC'], format: (v) => v ? this.$app.number_format(v) : '-' },
-          { name: 'NCR', label: 'NCR', sortable: true, field: (item) => item.totals['NCR'], format: (v) => v ? this.$app.number_format(v) : '-' },
+          { name: 'NC', label: 'NC (WO)', sortable: true, field: (item) => item.totals['NC'], format: (v) => v ? this.$app.number_format(v) : '-' },
+          { name: 'NCR', label: 'NCR (WO)', sortable: true, field: (item) => item.totals['NCR'], format: (v) => v ? this.$app.number_format(v) : '-' },
           { name: 'NG', label: 'NG', sortable: true, field: (item) => item.totals['NG'], format: (v) => v ? this.$app.number_format(v) : '-' },
           { name: 'price', label: 'Price', field: 'price', sortable: true, hidden: !this.$app.can('items.price') },
           { name: 'price_dm', label: 'Price(DM)', field: 'price', sortable: true, hidden: !this.$app.can('items.price') },
