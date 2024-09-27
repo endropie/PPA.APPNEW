@@ -180,6 +180,9 @@ export default {
       },
       FILTERABLE: {
         fill: {
+          appends: {
+            value: ['total_work_order']
+          },
           sample_in: {
             value: 'REGULER',
             type: 'string',
@@ -205,7 +208,7 @@ export default {
       TABLE: {
         mode: 'index',
         resource: {
-          api: '/api/v1/common/items?apends[]=total_work_order',
+          api: '/api/v1/common/items',
           uri: '/admin/common/items'
         },
         columns: [

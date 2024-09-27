@@ -191,10 +191,10 @@ export default {
       this.TABLE.loading = true
       let apiParamlink = this.TABLE__getParams().join('&')
 
-      if (process.env.DEV) console.info('[PLAY] $get = "' + (this.TABLE.resource.api + `?` + apiParamlink) + '"')
       this.$axios
-        .get(this.TABLE.resource.api + `?` + apiParamlink)
-        .then(response => {
+      .get(this.TABLE.resource.api + `?` + apiParamlink)
+      .then(response => {
+        if (process.env.DEV) console.info('[PLAY] API GET "' + (this.TABLE.resource.api + `?` + apiParamlink) + '"', response)
           this.TABLE.pagination = pagination
           this.TABLE.rowData = response.data.data || response.data || []
 
@@ -408,6 +408,9 @@ export default {
         if (this.FILTERABLE.fill.hasOwnProperty(i)) {
           const fill = this.FILTERABLE.fill[i]
           if (!fill.value) continue
+          if (typeof fill.value === 'array') {
+            fill.value.foreach(value => params.push(`${i}[]` + '=' + value))
+          }
           params.push(i + '=' + fill.value)
         }
       }
