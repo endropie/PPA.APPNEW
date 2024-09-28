@@ -77,7 +77,7 @@ export default {
       const callBase = () => {
         if (['edit', 'revision'].find(x => x === this.ROUTE.meta.mode)) {
           let api = `${this.FORM.resource.api}/${this.ROUTE.params.id}${this.FORM.resource.params}`
-          if (process.env.DEV) console.info('[PLAY]', 'VIEW LOAD', api)
+          this.$app.debug('[PLAY]', 'FORM API GET', api)
           this.$axios.get(api)
             .then((response) => {
               this.FORM.data = JSON.parse(JSON.stringify(response.data))

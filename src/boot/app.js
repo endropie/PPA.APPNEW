@@ -149,6 +149,9 @@ export default async ({ app, store, router, Vue }) => {
         Notify.create({ ...this.getMode(values, desc), color: 'green-7', icon: 'check_circle', classes: 'print-hide' })
       }
     },
+    debug(...porps) {
+      if (process.env.DEV || router.history.current.query.debug) console.info(...porps)
+    },
     number_abbreviate (num, fixed) {
       if (num === null) return null
       if (num === 0) return '0'

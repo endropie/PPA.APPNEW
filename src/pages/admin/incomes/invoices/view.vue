@@ -298,7 +298,7 @@ export default {
       const submit = () => {
         this.$q.loading.show()
         let url = `${this.VIEW.resource.api}/${this.ROUTE.params.id}/reopened`
-        if (process.env.DEV) console.info('[PLAY]', 'VIEW LOAD', url)
+        this.$app.debug('[PLAY]', 'VIEW LOAD', url)
         this.$axios.post(url)
           .then((response) => {
             let msg = response.data.message[0] || ''

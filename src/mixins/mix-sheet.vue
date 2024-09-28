@@ -54,18 +54,18 @@ export default {
 
         const uri = this.SHEET__GETURI(this.SHEET[i], newOption)
 
-        if (process.env.DEV) console.info('[PLAY] SHEET.LOAD => ', uri)
+        this.$app.debug('[PLAY] SHEET.LOAD => ', uri)
 
         this.SHEET[i].loading = true
         this.SHEET[i].data = []
         this.$axios.get(uri)
           .then(response => {
-            if (process.env.DEV) console.info('[PLAY] SHEET.LOAD.SUCCESS => ', response)
+            this.$app.debug('[PLAY] SHEET.LOAD.SUCCESS => ', response)
             this.SHEET[i].data = response.data
             if (typeof callback === 'function') callback(response)
           })
           .catch(error => {
-            if (process.env.DEV) console.error('[PLAY] SHEET.LOAD.ERROR => ', error.response || error)
+            console.error('[PLAY] SHEET.LOAD.ERROR => ', error.response || error)
             if (typeof callback === 'function') callback()
           })
           .finally(() => {
@@ -88,7 +88,7 @@ export default {
                   return response
                 })
                 .catch((error) => {
-                  if (process.env.DEV) console.error('[PLAY] SHEET.REQUEST.' + i + '.error')
+                  console.error('[PLAY] SHEET.REQUEST.' + i + '.error')
                   this.SHEET[i].errorMessage = error
                 })
                 .finally(() => {
@@ -100,7 +100,6 @@ export default {
       }
       this.$axios.all(requests)
         .finally(() => {
-          // if (process.env.DEV) console.warn('[PLAY] SHEET.REQUEST.ALL.finally')
           if (callback) callback()
         })
     }

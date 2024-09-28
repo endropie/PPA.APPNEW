@@ -192,9 +192,9 @@ export default {
       let apiParamlink = this.TABLE__getParams().join('&')
 
       this.$axios
-      .get(this.TABLE.resource.api + `?` + apiParamlink)
-      .then(response => {
-        if (process.env.DEV) console.info('[PLAY] API GET "' + (this.TABLE.resource.api + `?` + apiParamlink) + '"', response)
+        .get(this.TABLE.resource.api + `?` + apiParamlink)
+        .then(response => {
+          this.$app.debug('[PLAY] TABLE API GET "' + (this.TABLE.resource.api + `?` + apiParamlink) + '"', response)
           this.TABLE.pagination = pagination
           this.TABLE.rowData = response.data.data || response.data || []
 

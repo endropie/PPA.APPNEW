@@ -66,7 +66,7 @@ export default {
 
         this.$axios.get(url, { params })
           .then((response) => {
-            if (process.env.DEV) console.info('[PLAY]', 'VIEW LOAD', url, response)
+            this.$app.debug('[PLAY]', 'VIEW API GET', url, response)
             this.VIEW.data = JSON.parse(JSON.stringify(response.data))
             if (typeof callback === 'function') {
               if (callback) callback(response.data)

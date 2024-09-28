@@ -8,7 +8,7 @@ export default async ({ app, Vue }) => {
   // axios.defaults.baseURL = 'localhost:8000'
   // axios.defaults.baseURL = 'ppa-laravel'
 
-  const devHOST = process.env.DEV ?  `${document.location.protocol}//${document.location.hostname}:8050` : null;
+  const devHOST = process.env.DEV ?  `${document.location.protocol}//${document.location.hostname}:8000` : null;
 
   const BASE_URL = LocalStorage.getItem('BASE_URL') || devHOST
   const CONFIG = app.store.getters['admin/CONFIG']
