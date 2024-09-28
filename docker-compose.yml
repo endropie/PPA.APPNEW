@@ -1,9 +1,9 @@
-# for local development
-version: '3.7'
+
 name: ppa
 services:
   appnew:
-    container_name: 'ppa.appnew'
+    container_name: 'ppa-appnew'
+    image: 'endropie/ppa-appnew'
     build:
       context: .
       dockerfile: ./.docker/Dockerfile
